@@ -21,4 +21,14 @@ jobs:
 
       - name: Sync src/ to S3
         run: |
-          aws s3 sync src/ s3://rinsesoft-website --delete --acl public-read --cache-control "public, max-age=31536000"
+          # 1. Upload images, JS, and CSS with long caching (1 year)
+          # These files usually have unique hashes in their names (e.g., main.a1b2c3.js)
+          aws s3 sync src/ s3://rinsesoft-website --delete \
+            --exclude "*.html" \
+            --cache-control "public, max-age=31536000, immutable"
+
+          # 2. Upload HTML files with NO caching
+          # This ensures users always get the latest version of your page immediately
+          aws s3 sync src/ s3://rinsesoft-website --delete \
+            --exclude "*" --include "*.html" \
+            --cache-control "no-cache"
