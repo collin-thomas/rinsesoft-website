@@ -1,14 +1,435 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Rinsesoft</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Meta Tags -->
+  <title>Rinsesoft | Strategic Systems Architecture & Operational Efficiency</title>
+  <meta name="description"
+    content="Rinsesoft helps mid-market firms eliminate operational drag and optimize margins through strategic systems architecture and high-performance technical leadership.">
+  <meta name="keywords"
+    content="Systems Architecture, Operational Efficiency, Margin Optimization, Technical Due Diligence, Fintech, Manufacturing, Media, Fractional CTO">
+  <meta name="author" content="Rinsesoft">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rinsesoft.com/">
+  <meta property="og:title" content="Rinsesoft | Strategic Systems Architecture & Efficiency">
+  <meta property="og:description"
+    content="Architecting high-performance systems to turn technology into a financial asset.">
+  <meta property="og:image" content="https://rinsesoft.com/og-image.png">
+
+  <!-- Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Rinsesoft",
+      "description": "Strategic Systems Architecture and efficiency consulting focusing on margin optimization and operational health.",
+      "url": "https://rinsesoft.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      }
+    }
+    </script>
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #141414;
+      --accent: #ffffff;
+      --text-main: #e5e5e5;
+      --text-dim: #a3a3a3;
+      --border: #262626;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --max-width: 1100px;
+    }
+
+    /* Base Styles (Mobile First) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0 4rem;
+      text-align: left;
+    }
+
+    h1 {
+      font-size: clamp(2.25rem, 10vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      background: var(--accent);
+      color: var(--bg-primary);
+      padding: 1.125rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      transition: var(--transition);
+    }
+
+    /* Transition Section */
+    .bridge {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to bottom, #0a0a0a, #0e0e0e);
+    }
+
+    .bridge h2 {
+      font-size: 1.75rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .bridge p {
+      color: var(--text-dim);
+      max-width: 750px;
+      margin-bottom: 2rem;
+      font-size: 1.125rem;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin: 4rem 0;
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      border-color: #444;
+    }
+
+    .card-number {
+      font-family: serif;
+      font-style: italic;
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      display: block;
+      opacity: 0.6;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      color: var(--text-dim);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-header h2 {
+      font-size: 2.25rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+
+    .contact-header p {
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-family: inherit;
+      border-radius: 4px;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .submit-button {
+      width: 100%;
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: none;
+      padding: 1.25rem 2rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.875rem;
+    }
+
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.75rem;
+    }
+
+    /* Desktop Adjustments (Media Queries) */
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 2rem;
+      }
+
+      header {
+        padding: 2.5rem 0;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .hero {
+        padding: 12rem 0 10rem;
+      }
+
+      .cta-button {
+        width: auto;
+      }
+
+      .bridge {
+        padding: 6rem 0;
+      }
+
+      .bridge h2 {
+        font-size: 2.5rem;
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .card {
+        padding: 4rem 3rem;
+      }
+
+      .contact {
+        padding: 8rem 0;
+      }
+
+      .contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 6rem;
+      }
+
+      .contact-header h2 {
+        font-size: 3.5rem;
+      }
+
+      .submit-button {
+        width: auto;
+      }
+    }
+
+    /* Utilities */
+    .accent-text {
+      color: var(--accent);
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>Rinsesoft</h1>
+  <div class="container">
+    <header>
+      <div class="logo">Rinsesoft</div>
+      <nav>
+        <a href="#contact"
+          style="text-decoration: none; font-weight: 600; font-size: 0.75rem; color: var(--text-main); letter-spacing: 0.1em;">GET
+          IN TOUCH</a>
+      </nav>
+    </header>
 
+    <main>
+      <section class="hero">
+        <h1>We treat technology as a <span class="accent-text">financial asset</span>, not an expense.</h1>
+        <p>Profitability is an architectural challenge. We help mid-market firms translate business logic into systems
+          that eliminate operational drag and protect margins.</p>
+        <a href="#contact" class="cta-button">REQUEST A CONSULTATION</a>
+      </section>
+
+      <section class="bridge">
+        <div class="container" style="padding: 0;">
+          <h2>Complexity is the silent tax on mid-market growth.</h2>
+          <p>As organizations scale, systems fracture. What worked at $10M creates gridlock at $100M. We conduct
+            thorough operational audits to expose the structural inefficiencies where profit leaks occur.</p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <span class="card-number">01 / Analysis</span>
+          <h3>The Margin Audit</h3>
+          <p>We provide rigorous analysis to identify where capital is wasted. We look beyond technical errors to find
+            the process gaps and structural inefficiencies taxing your bottom line.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-number">02 / Design</span>
+          <h3>Strategic Architecture</h3>
+          <p>We deliver the blueprint for your operational infrastructure. We design a unified environment that ensures
+            data integrity and turns your technology stack into a scalable financial engine.</p>
+        </article>
+
+        <article class="card">
+          <span class="card-number">03 / Governance</span>
+          <h3>Technical Advisory</h3>
+          <p>Strategic oversight for the long term. We provide the guidance needed to navigate vendor selection,
+            technical due diligence, and infrastructure roadmaps that support EBITDA growth.</p>
+        </article>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact-layout">
+          <div class="contact-header">
+            <h2>Ready to scale?</h2>
+            <p>Tell us where your operations are slowing down. We specialize in translating business bottlenecks into
+              strategic architectural solutions.</p>
+          </div>
+          <form name="contact" method="POST" data-netlify="true">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="email@company.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Where is the primary friction in your current operation?</label>
+              <textarea id="message" name="message" rows="5"
+                placeholder="e.g., 'Our manual reconciliation takes 10 days' or 'We lack real-time visibility into unit margins'..."
+                required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Submit Request</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="year">2026</span> Rinsesoft. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearElement = document.getElementById('year');
+      const currentYear = new Date().getFullYear();
+      yearElement.textContent = Math.max(2026, currentYear);
+    });
+  </script>
 </body>
 
 </html>
