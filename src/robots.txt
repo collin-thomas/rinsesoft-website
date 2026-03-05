@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rinsesoft.com/sitemap.xml
+Host: https://rinsesoft.com
