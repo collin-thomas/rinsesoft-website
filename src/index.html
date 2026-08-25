@@ -16,7 +16,7 @@
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rinsesoft.com/">
-  <meta property="og:title" content="Rinsesoft — We treat technology as a financial asset">
+  <meta property="og:title" content="Rinsesoft | We treat technology as a financial asset">
   <meta property="og:description"
     content="Rinsesoft helps mid-market firms eliminate operational drag and protect margins through strategic systems architecture. Request a consultation to translate business logic into scalable systems.">
   <meta property="og:image" content="https://rinsesoft.com/img/og-image.jpg">
@@ -25,7 +25,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://rinsesoft.com/img/og-image.jpg">
-  <meta name="twitter:title" content="Rinsesoft — We treat technology as a financial asset">
+  <meta name="twitter:title" content="Rinsesoft | We treat technology as a financial asset">
   <meta name="twitter:description"
     content="Rinsesoft helps mid-market firms eliminate operational drag and protect margins through strategic systems architecture. Request a consultation to translate business logic into scalable systems.">
 
@@ -108,11 +108,21 @@
     }
 
     header {
-      padding: 1.5rem 0;
+      padding: 1rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--border);
+    }
+
+    header nav a {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
     }
 
     /* Logo Styling */
@@ -209,6 +219,10 @@
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background: linear-gradient(to bottom, #0a0a0a, #0e0e0e);
+    }
+
+    .bridge .container {
+      padding: 0;
     }
 
     .bridge h2 {
@@ -350,7 +364,7 @@
       }
 
       header {
-        padding: 2.5rem 0;
+        padding: 2rem 0;
       }
 
       .logo-full {
@@ -417,9 +431,7 @@
         <img src="/img/rinsesoft-insignia.svg" alt="Rinsesoft Insignia" class="logo-insignia">
       </a>
       <nav>
-        <a href="#contact"
-          style="text-decoration: none; font-weight: 600; font-size: 0.75rem; color: var(--text-main); letter-spacing: 0.1em; border-bottom: 1px solid var(--accent); padding-bottom: 2px;">GET
-          IN TOUCH</a>
+        <a href="#contact">GET IN TOUCH</a>
       </nav>
     </header>
 
@@ -432,7 +444,7 @@
       </section>
 
       <section class="bridge">
-        <div class="container" style="padding: 0;">
+        <div class="container">
           <h2>Complexity is the silent tax on mid-market growth.</h2>
           <p>As organizations scale, systems fracture. What worked at $10M creates gridlock at $100M. We conduct
             thorough operational audits to expose the structural inefficiencies where profit leaks occur.</p>

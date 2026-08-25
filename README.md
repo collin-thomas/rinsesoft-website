@@ -1,1 +1,1 @@
-# rinsesoft-website
+# Rinsesoft Website

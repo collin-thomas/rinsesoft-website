@@ -12,10 +12,10 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://rinsesoft.com/img/og-image.jpg">
-  <meta property="og:title" content="Rinsesoft — We treat technology as a financial asset">
+  <meta property="og:title" content="Rinsesoft | We treat technology as a financial asset">
   <meta property="og:description"
     content="Rinsesoft helps mid-market firms eliminate operational drag and protect margins through strategic systems architecture.">
-  <meta name="twitter:title" content="Rinsesoft — We treat technology as a financial asset">
+  <meta name="twitter:title" content="Rinsesoft | We treat technology as a financial asset">
   <meta name="twitter:description"
     content="Rinsesoft helps mid-market firms eliminate operational drag and protect margins through strategic systems architecture.">
 
@@ -50,6 +50,7 @@
       --text-main: #e5e5e5;
       --text-dim: #a3a3a3;
       --border: #262626;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --max-width: 1100px;
     }
 
@@ -65,25 +66,36 @@
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
+      background-color: var(--bg-primary);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     .container {
       width: 100%;
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 2.5rem 1.5rem;
+      padding: 0 1.5rem;
     }
 
     header {
+      padding: 1rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 1.5rem;
       border-bottom: 1px solid var(--border);
+    }
+
+    header nav a {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 2px;
     }
 
     /* Logo Styling */
@@ -115,7 +127,7 @@
       height: 32px;
       width: auto;
       opacity: 0.6;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
     }
 
     .footer-logo img:hover {
@@ -185,6 +197,21 @@
       font-size: 0.75rem;
       text-align: center;
     }
+
+    /* Desktop Adjustments (Media Queries) */
+    @media (min-width: 900px) {
+      .container {
+        padding: 0 2rem;
+      }
+
+      header {
+        padding: 2rem 0;
+      }
+
+      .logo-full {
+        height: 26px;
+      }
+    }
   </style>
 </head>
 
@@ -196,8 +223,7 @@
         <img src="/img/rinsesoft-insignia.svg" alt="Rinsesoft Insignia" class="logo-insignia">
       </a>
       <nav>
-        <a href="/"
-          style="text-decoration:none; color:var(--text-main); font-weight:600; font-size:0.75rem; letter-spacing:0.1em;">HOME</a>
+        <a href="/">HOME</a>
       </nav>
     </header>
 
