@@ -19,6 +19,11 @@
   <meta name="twitter:description"
     content="Rinsesoft helps mid-market firms eliminate operational drag and protect margins through strategic systems architecture.">
 
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="/img/rinsesoft-insignia.svg">
+  <link rel="apple-touch-icon" href="/img/rinsesoft-insignia.png">
+
   <!-- Optimized Font Loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,19 +86,50 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* Logo Styling */
     .logo {
-      font-weight: 900;
-      font-size: 1.15rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      font-style: italic;
-      color: #fff;
       display: flex;
       align-items: center;
+      text-decoration: none;
     }
 
-    .logo span {
-      color: var(--accent);
+    .logo-full {
+      height: 22px;
+      width: auto;
+      display: block;
+    }
+
+    .logo-insignia {
+      height: 22px;
+      width: auto;
+      display: none;
+    }
+
+    .footer-logo {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-logo img {
+      height: 32px;
+      width: auto;
+      opacity: 0.6;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .footer-logo img:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      .logo-full {
+        display: none;
+      }
+
+      .logo-insignia {
+        display: block;
+      }
     }
 
     .message {
@@ -155,7 +191,10 @@
 <body>
   <div class="container">
     <header>
-      <div class="logo">RINSE<span>SOFT</span></div>
+      <a href="/" class="logo" aria-label="Rinsesoft Home">
+        <img src="/img/rinsesoft-logo-no-rs.svg" alt="Rinsesoft Logo" class="logo-full">
+        <img src="/img/rinsesoft-insignia.svg" alt="Rinsesoft Insignia" class="logo-insignia">
+      </a>
       <nav>
         <a href="/"
           style="text-decoration:none; color:var(--text-main); font-weight:600; font-size:0.75rem; letter-spacing:0.1em;">HOME</a>
@@ -174,6 +213,9 @@
     </main>
 
     <footer>
+      <div class="footer-logo">
+        <img src="/img/rinsesoft-insignia.svg" alt="Rinsesoft Insignia">
+      </div>
       <p>&copy; <span id="year">2026</span> Rinsesoft. All rights reserved.</p>
     </footer>
   </div>
