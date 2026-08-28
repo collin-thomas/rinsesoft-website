@@ -1,0 +1,67 @@
+<style>
+  header {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header nav a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+  }
+
+  /* Logo Styling */
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-full {
+    height: 22px;
+    width: auto;
+    display: block;
+  }
+
+  .logo-insignia {
+    height: 22px;
+    width: auto;
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .logo-full {
+      display: none;
+    }
+
+    .logo-insignia {
+      display: block;
+    }
+  }
+
+  @media (min-width: 900px) {
+    header {
+      padding: 2rem 0;
+    }
+
+    .logo-full {
+      height: 26px;
+    }
+  }
+</style>
+<header>
+  <a href="/" class="logo" aria-label="Rinsesoft Home">
+    <logo-full class="logo-full"></logo-full>
+    <logo-insignia class="logo-insignia"></logo-insignia>
+  </a>
+  <nav>
+    <div data-bascik-slot><a href="#contact">GET IN TOUCH</a></div>
+  </nav>
+</header>

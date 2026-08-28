@@ -1,0 +1,111 @@
+<style>
+  .contact {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-header h2 {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-header p {
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    font-family: inherit;
+    border-radius: 4px;
+    transition: var(--transition);
+    font-size: 1rem;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .submit-button {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 1.25rem 2rem;
+    font-weight: 800;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 900px) {
+    .contact {
+      padding: 8rem 0;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 6rem;
+    }
+
+    .contact-header h2 {
+      font-size: 3.5rem;
+    }
+
+    .submit-button {
+      width: auto;
+    }
+  }
+</style>
+<section class="contact" id="contact">
+  <div class="contact-layout">
+    <div class="contact-header">
+      <h2>Ready to scale?</h2>
+      <p>Tell us where your operations are slowing down. We specialize in translating business bottlenecks into
+        strategic architectural solutions.</p>
+    </div>
+    <form name="contact" method="POST" action="/success" data-netlify="true">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="email@company.com" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Where is the primary friction in your current operation?</label>
+        <textarea id="message" name="message" rows="5"
+          placeholder="e.g., 'Our manual reconciliation takes 10 days' or 'We lack real-time visibility into unit margins'..."
+          required></textarea>
+      </div>
+      <button type="submit" class="submit-button">Submit Request</button>
+    </form>
+  </div>
+</section>

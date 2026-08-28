@@ -1,0 +1,49 @@
+<style>
+  .card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+  }
+
+  .card-number {
+    font-family: serif;
+    font-style: italic;
+    font-size: 0.875rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: block;
+    opacity: 0.8;
+  }
+
+  .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  .card p {
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 900px) {
+    .card {
+      padding: 4rem 3rem;
+    }
+  }
+</style>
+<article class="card">
+  <span class="card-number" data-bascik-prop-number></span>
+  <h3 data-bascik-prop-title></h3>
+  <p data-bascik-slot></p>
+</article>

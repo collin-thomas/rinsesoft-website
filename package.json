@@ -1,0 +1,14 @@
+{
+  "name": "rinsesoft-website",
+  "packageManager": "yarn@4.18.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bascik",
+    "build": "bascik --build",
+    "serve": "bascik --serve",
+    "check": "bascik --check"
+  },
+  "dependencies": {
+    "@bascik/bascik": "portal:/Users/collin/github/bascik/pkg"
+  }
+}

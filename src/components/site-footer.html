@@ -1,0 +1,39 @@
+<style>
+  footer {
+    padding: 4rem 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+  }
+
+  .footer-logo {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .footer-logo img {
+    height: 32px;
+    width: auto;
+    opacity: 0.6;
+    transition: var(--transition);
+  }
+
+  .footer-logo img:hover {
+    opacity: 1;
+  }
+</style>
+<footer>
+  <div class="footer-logo">
+    <logo-insignia></logo-insignia>
+  </div>
+  <p>&copy; <span id="year">2026</span> Rinsesoft. All rights reserved.</p>
+</footer>
+<script>
+  const yearElement = document.getElementById('year');
+  if (yearElement) {
+    const currentYear = new Date().getFullYear();
+    yearElement.textContent = Math.max(2026, currentYear);
+  }
+</script>
