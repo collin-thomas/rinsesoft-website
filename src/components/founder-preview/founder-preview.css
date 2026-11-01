@@ -1,0 +1,25 @@
+.founder {
+  padding: 0 0 var(--space-section);
+  max-width: 760px;
+}
+
+header {
+  margin-bottom: 1.75rem;
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 550;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+
+p {
+  margin-bottom: 1.25rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.text-link {
+  margin-top: 0.75rem;
+}

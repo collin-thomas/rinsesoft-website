@@ -31,6 +31,30 @@
   margin-bottom: 1rem;
 }
 
+.positioning {
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.page-links a {
+  padding: 0.75rem 0;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.page-links a:hover {
+  color: var(--accent);
+}
+
 .social-links a {
   display: inline-flex;
   align-items: center;

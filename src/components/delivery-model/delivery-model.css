@@ -1,0 +1,30 @@
+.delivery {
+  border-top: 1px solid var(--border);
+  padding: var(--space-section) 0;
+}
+
+.principles {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.principles p {
+  color: var(--text-dim);
+  line-height: 1.8;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+strong {
+  display: block;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+  font-weight: 550;
+}
+
+@media (min-width: 700px) {
+  .principles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

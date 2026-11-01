@@ -6,7 +6,9 @@ declare global {
   }
 }
 
-for (const path of ["/", "/success"]) {
+const paths = ["/", "/services", "/about", "/contact", "/success"];
+
+for (const path of paths) {
   for (const width of [375, 390, 412, 480, 481, 899, 900, 901, 1440]) {
     test(`${path} stays stable when the font arrives late at ${width}px`, async ({ page }) => {
       let releaseFont: (() => void) | undefined;
@@ -59,7 +61,7 @@ for (const path of ["/", "/success"]) {
   }
 }
 
-for (const path of ["/", "/success"]) {
+for (const path of paths) {
   for (const width of [375, 480, 481, 899, 900, 901, 1440]) {
     test(`${path} renders without overflow or external assets at ${width}px`, async ({ page }) => {
       const errors: string[] = [];
@@ -101,21 +103,36 @@ for (const path of ["/", "/success"]) {
   }
 }
 
-test("contact anchors and native form validation work", async ({ page }) => {
+test("discovery navigation and native form validation work", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("home-hero-consultation").click();
-  await expect(page).toHaveURL(/#contact$/);
+  await expect(page).toHaveURL(/\/contact$/);
   const form = page.getByTestId("contact-form");
   await expect(form).toHaveAttribute("action", "/success");
   await expect(form).toHaveAttribute("method", "POST");
   await expect(form).toHaveAttribute("data-netlify", "true");
   expect(await form.evaluate((element) => (element as HTMLFormElement).checkValidity())).toBe(false);
   await page.getByTestId("contact-section-name").fill("Site test");
+  await expect(page.getByTestId("contact-section-company")).toHaveAttribute("required", "");
+  await page.getByTestId("contact-section-focus").selectOption("fractional-cto");
   await page.getByTestId("contact-section-email").fill("test@example.com");
   await page.getByTestId("contact-section-message").fill("Testing native validation without submitting.");
+  expect(await form.evaluate((element) => (element as HTMLFormElement).checkValidity())).toBe(false);
+  expect(await page.getByTestId("contact-section-company").evaluate(
+    (element) => (element as HTMLInputElement).validity.valueMissing,
+  )).toBe(true);
+  await page.getByTestId("contact-section-company").fill("Test company");
   expect(await form.evaluate((element) => (element as HTMLFormElement).checkValidity())).toBe(true);
-  const fields = await form.evaluate((element) => [...new FormData(element as HTMLFormElement).keys()]);
-  expect(fields).toEqual(["name", "email", "message"]);
+  const fields = await form.evaluate((element) => Object.fromEntries(new FormData(element as HTMLFormElement)));
+  expect(fields).toEqual({
+    "form-name": "contact",
+    name: "Site test",
+    company: "Test company",
+    focus: "fractional-cto",
+    email: "test@example.com",
+    message: "Testing native validation without submitting.",
+  });
+  await expect(page.getByTestId("contact-section-direct-email")).toHaveAttribute("href", "mailto:info@rinsesoft.com");
 });
 
 test("skip link moves keyboard focus and reduced motion is respected", async ({ page }) => {
@@ -151,12 +168,18 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain(canonical!);
   expect(await sitemap.text()).not.toContain("/success");
+  for (const path of ["/services", "/about", "/contact"]) {
+    expect(await sitemap.text()).toContain(`https://rinsesoft.com${path}`);
+  }
   const index = await request.get("/llms.txt");
   expect(index.ok()).toBe(true);
   const text = await index.text();
   expect(text).toContain("# Rinsesoft");
   expect(text).toContain(canonical!);
   expect(text).not.toContain("/success");
+  for (const path of ["/services", "/about", "/contact"]) {
+    expect(text).toContain(`https://rinsesoft.com${path}`);
+  }
   for (const asset of ["/fonts/inter-latin-variable.woff2", "/img/rinsesoft-insignia-60.webp"]) {
     const response = await request.get(asset);
     expect(response.ok()).toBe(true);
@@ -172,10 +195,100 @@ test("the site works without JavaScript", async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8081/");
   await expect(page.getByTestId("home-hero")).toBeVisible();
-  await expect(page.getByTestId("contact-form")).toBeVisible();
   await page.getByTestId("home-hero-consultation").click();
-  await expect(page).toHaveURL(/#contact$/);
+  await expect(page).toHaveURL(/\/contact$/);
+  await expect(page.getByTestId("contact-form")).toBeVisible();
+  await page.getByTestId("site-header-services").click();
+  await expect(page.getByTestId("engagement-step")).toHaveCount(3);
+  await page.getByTestId("site-header-about").click();
+  await expect(page.getByTestId("founder-profile")).toBeVisible();
   await page.goto("http://127.0.0.1:8081/success");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Thank you.");
   await context.close();
 });
+
+test("company pages have unique metadata and navigable primary links", async ({ page }) => {
+  const titles = new Set<string>();
+  const descriptions = new Set<string>();
+  for (const path of paths.filter((path) => path !== "/success")) {
+    await page.goto(path);
+    titles.add(await page.title());
+    descriptions.add(await page.locator('meta[name="description"]').getAttribute("content") ?? "");
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://rinsesoft.com${path}`);
+    for (const destination of ["services", "about", "contact"]) {
+      const link = page.getByTestId(`site-header-${destination}`);
+      await expect(link).toHaveAttribute("href", `/${destination}`);
+      if (path === `/${destination}`) await expect(link).toHaveAttribute("aria-current", "page");
+    }
+  }
+  expect(titles.size).toBe(4);
+  expect(descriptions.size).toBe(4);
+  await page.getByTestId("site-header-services").click();
+  await expect(page.getByTestId("engagement-step")).toHaveCount(3);
+  await page.getByTestId("site-header-about").click();
+  await expect(page.getByRole("heading", { name: /Technical depth/ })).toBeVisible();
+  await expect(page.getByTestId("founder-profile").getByRole("img")).toHaveAttribute("src", "/img/collin-thomas-2026.webp");
+  await page.getByTestId("discovery-cta-contact").click();
+  await expect(page.getByTestId("contact-form")).toBeVisible();
+});
+
+test("the homepage has no diagram or portrait and About retains the portrait", async ({ page, request }) => {
+  await page.goto("/");
+  await expect(page.getByTestId("home-hero-approach")).toHaveCount(0);
+  await expect(page.getByTestId("founder-preview").getByRole("img")).toHaveCount(0);
+  await expect(page.getByTestId("home-hero-consultation")).toBeVisible();
+  await page.goto("/about");
+  await expect(page.getByTestId("founder-profile").getByRole("img")).toBeVisible();
+  const portrait = await request.get("/img/collin-thomas-2026.webp");
+  expect(portrait.ok()).toBe(true);
+});
+
+for (const width of [390, 970, 1440]) {
+  test(`services overview link sits with its introduction above the cards at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const section = page.getByTestId("services-overview");
+    const link = page.getByTestId("services-overview-link");
+    await expect(link).toHaveAttribute("href", "/services");
+    const linkBox = await link.boundingBox();
+    const cardBox = await section.getByTestId("service-card").first().boundingBox();
+    expect(linkBox).not.toBeNull();
+    expect(cardBox).not.toBeNull();
+    expect(linkBox!.y + linkBox!.height).toBeLessThan(cardBox!.y);
+    await link.click();
+    await expect(page).toHaveURL(/\/services$/);
+  });
+
+  test(`engagement cards keep their introduction under the title at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/services");
+    const cards = page.getByTestId("engagement-step");
+    await expect(cards).toHaveCount(3);
+    for (const card of await cards.all()) {
+      const heading = await card.getByRole("heading", { level: 3 }).boundingBox();
+      const intro = await card.locator("header > p").boundingBox();
+      expect(heading).not.toBeNull();
+      expect(intro).not.toBeNull();
+      expect(intro!.y).toBeGreaterThan(heading!.y + heading!.height);
+      expect(intro!.x).toBe(heading!.x);
+      await expect(card.getByRole("heading", { name: "What we focus on" })).toBeVisible();
+      await expect(card.getByRole("heading", { name: "What you leave with" })).toBeVisible();
+    }
+  });
+
+  test(`company experience copy sits below its heading at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const section = page.getByTestId("founder-preview");
+    const heading = section.getByRole("heading", { level: 2 });
+    const copy = section.getByText("Rinsesoft brings over 20 years", { exact: false });
+    const headingBox = await heading.boundingBox();
+    const copyBox = await copy.boundingBox();
+    expect(headingBox).not.toBeNull();
+    expect(copyBox).not.toBeNull();
+    expect(copyBox!.y).toBeGreaterThan(headingBox!.y + headingBox!.height);
+    expect(copyBox!.x).toBe(headingBox!.x);
+    await expect(section).not.toContainText("Work directly with Collin");
+    await expect(section.getByRole("link", { name: /More about Rinsesoft/ })).toHaveAttribute("href", "/about");
+  });
+}

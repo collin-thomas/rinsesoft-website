@@ -4,15 +4,35 @@ Netlify contact request form.
 <section class="contact" data-testid="contact-section">
   <div class="contact-layout">
     <header class="contact-header">
-      <h2>Ready to scale?</h2>
-      <p>Tell us where your operations are slowing down. We specialize in translating business bottlenecks into
-        strategic architectural solutions.</p>
+      <span class="eyebrow">Initial discovery</span>
+      <h2>Let's start with your business.</h2>
+      <p>We'll review your inquiry and follow up within two business days to arrange a conversation about your
+        priorities and whether we're a fit.</p>
+      <a class="email-link" href="mailto:info@rinsesoft.com"
+        data-testid="contact-section-direct-email">info@rinsesoft.com</a>
+      <p class="expectation">No lengthy brief needed. A few sentences about the challenge, your timeline, and what
+        success looks like are enough to begin.</p>
     </header>
     <form name="contact" method="POST" action="/success" data-netlify="true" data-testid="contact-form">
+      <input type="hidden" name="form-name" value="contact">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" required
           data-testid="contact-section-name">
+      </div>
+      <div class="form-group">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" autocomplete="organization" placeholder="Your organization" required
+          data-testid="contact-section-company">
+      </div>
+      <div class="form-group">
+        <label for="focus">How can we help?</label>
+        <select id="focus" name="focus" data-testid="contact-section-focus">
+          <option value="discovery">System bottleneck audit / rapid discovery</option>
+          <option value="implementation">Architecture &amp; implementation</option>
+          <option value="fractional-cto">Fractional CTO / strategic partnership</option>
+          <option value="unsure">Let's figure it out together</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
@@ -25,7 +45,9 @@ Netlify contact request form.
           placeholder="e.g., 'Our manual reconciliation takes 10 days' or 'We lack real-time visibility into unit margins'..."
           required data-testid="contact-section-message"></textarea>
       </div>
-      <button type="submit" class="submit-button" data-testid="contact-section-submit">Submit Request</button>
+      <p class="privacy-note">Please don't include passwords, credentials, or confidential business data in this initial
+        inquiry.</p>
+      <button type="submit" class="submit-button" data-testid="contact-section-submit">Send discovery inquiry</button>
     </form>
   </div>
 </section>

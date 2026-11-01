@@ -1,10 +1,8 @@
 <!-- @bascik
 Shared site branding and primary navigation.
-@prop nav-label - Visible label for the primary navigation link.
-@prop nav-href - Destination of the primary navigation link.
 -->
 <header class="site-header" data-testid="site-header">
-  <a href="/" class="logo" aria-label="Rinsesoft Home">
+  <a href="/" class="logo" aria-label="Rinsesoft Home" data-testid="site-header-home">
     <picture>
       <source media="(max-width: 480px)" width="60" height="34"
         srcset="/img/rinsesoft-insignia-60.webp 1x, /img/rinsesoft-insignia-120.webp 2x, /img/rinsesoft-insignia-180.webp 3x">
@@ -13,7 +11,10 @@ Shared site branding and primary navigation.
         alt="Rinsesoft Logo" class="logo-image">
     </picture>
   </a>
-  <nav aria-label="Primary navigation" data-testid="site-nav">
-    <a data-bascik-attr-href="nav-href" data-bascik-prop-nav-label data-testid="site-header-link"></a>
+  <nav id="navigation" aria-label="Primary navigation" data-testid="site-nav">
+    <a href="/services" data-testid="site-header-services">Services</a>
+    <a href="/about" data-testid="site-header-about">About</a>
+    <a href="/contact" class="contact-link" data-testid="site-header-contact">Let's talk <span aria-hidden="true">&nearr;</span></a>
   </nav>
 </header>
+<script src="site-header.ts"></script>

@@ -4,7 +4,8 @@
 }
 
 .contact-header h2 {
-  font-size: 2.25rem;
+  font-size: 2rem;
+  font-weight: 550;
   margin-bottom: 1rem;
   letter-spacing: -0.03em;
 }
@@ -12,6 +13,22 @@
 .contact-header p {
   color: var(--text-dim);
   margin-bottom: 2.5rem;
+}
+
+.contact-header .expectation {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+}
+
+.email-link {
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+
+.privacy-note {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group {
@@ -29,6 +46,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   padding: 1rem;
@@ -42,6 +60,7 @@ textarea {
 }
 
 input:focus,
+select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--accent);
@@ -64,17 +83,17 @@ textarea:focus {
 
 @media (min-width: 900px) {
   .contact {
-    padding: 8rem 0;
+    padding: 4rem 0 7rem;
   }
 
   .contact-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
-    gap: 6rem;
+    gap: 5rem;
   }
 
   .contact-header h2 {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
 
   .submit-button {

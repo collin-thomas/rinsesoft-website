@@ -1,0 +1,17 @@
+.heading {
+  max-width: 740px;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 550;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+
+p {
+  color: var(--text-dim);
+  margin-top: 1.25rem;
+  max-width: 650px;
+  line-height: 1.8;
+}

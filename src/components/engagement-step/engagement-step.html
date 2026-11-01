@@ -1,0 +1,30 @@
+<!-- @bascik
+One phase in the engagement model.
+@prop number - Engagement phase number.
+@prop label - Engagement type.
+@prop title - Engagement name.
+@prop timing - Typical time horizon.
+@prop text - Engagement overview.
+@prop outcome - Tangible engagement outcome.
+-->
+<article class="step" data-testid="engagement-step">
+  <header class="summary">
+    <div class="meta">
+      <span class="phase"><span class="number" data-bascik-prop-number></span><span data-bascik-prop-label></span></span>
+      <p class="timing" data-bascik-prop-timing></p>
+    </div>
+    <h3 data-bascik-prop-title></h3>
+    <p class="intro" data-bascik-prop-text></p>
+  </header>
+  <div class="details">
+    <div class="scope">
+      <h4>What we focus on</h4>
+      <ul><div data-bascik-slot></div></ul>
+    </div>
+    <div class="outcome">
+      <span class="outcome-marker" aria-hidden="true">&nearr;</span>
+      <h4>What you leave with</h4>
+      <p data-bascik-prop-outcome></p>
+    </div>
+  </div>
+</article>

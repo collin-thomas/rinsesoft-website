@@ -51,13 +51,27 @@ BASCIK_SITE_URL=https://rinsesoft.com npm run build
 npm test
 ```
 
-The browser tests cover both routes at mobile, desktop, and breakpoint-edge
+The browser tests cover all five routes at mobile, desktop, and breakpoint-edge
 widths, form validation, keyboard navigation, no-JavaScript behavior, and
 crawler metadata. Delayed-font tests require zero layout shift and unchanged
 section geometry after the download completes. The Netlify form is never
 submitted by tests.
 
 For Lighthouse, serve the production build with `npx bascik --server` and audit
-`http://localhost:8080/` and `/success` in mobile and desktop modes. The
+`/`, `/services`, `/about`, `/contact`, and `/success` in mobile and desktop modes. The
 confirmation page deliberately fails the crawlability audit because it is
 `noindex`; do not remove this protection to inflate its SEO score.
+
+## Pages and content
+
+- `/`: positioning, business outcomes, and founder-led delivery overview.
+- `/services`: discovery, architecture and implementation, and fractional CTO engagements.
+- `/about`: principal biography, industry background, and specialist delivery model.
+- `/contact`: discovery inquiry form and direct email contact.
+- `/success`: non-indexed Netlify form confirmation.
+
+The founder portrait appears only on About, using `src/pages/img/collin-thomas-2026.webp`.
+The contact form includes company and engagement focus fields; it remains a native
+Netlify POST form with a `/success` redirect and works without JavaScript.
+Discovery CTAs open the inquiry page, not an external calendar. Previous
+homepage `#contact` links land on the contact call to action.
