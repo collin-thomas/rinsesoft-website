@@ -22,6 +22,11 @@ npm run build
 The contact form is a Netlify form. Its successful submission continues to
 redirect to `/success`, which is intentionally excluded from the sitemap.
 
+Netlify builds from the repository root, explicitly set by `base = "/"` in
+`netlify.toml`. This overrides the legacy `src` base directory in the Netlify UI,
+so dependencies are installed beside the root `package.json` and `dist/` is
+published from the correct location.
+
 ## Performance and validation
 
 The small global stylesheet is inlined by Bascik. Inter is self-hosted as a
