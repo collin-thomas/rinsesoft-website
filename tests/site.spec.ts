@@ -1,5 +1,64 @@
 import { test, expect } from "@playwright/test";
 
+declare global {
+  interface Window {
+    fontLayoutShiftScore: number;
+  }
+}
+
+for (const path of ["/", "/success"]) {
+  for (const width of [375, 390, 412, 480, 481, 899, 900, 901, 1440]) {
+    test(`${path} stays stable when the font arrives late at ${width}px`, async ({ page }) => {
+      let releaseFont: (() => void) | undefined;
+      const fontGate = new Promise<void>((resolve) => { releaseFont = resolve; });
+      await page.route("**/fonts/inter-latin-variable.woff2", async (route) => {
+        await fontGate;
+        await route.continue();
+      });
+      await page.addInitScript(() => {
+        window.fontLayoutShiftScore = 0;
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if ("value" in entry && typeof entry.value === "number"
+              && "hadRecentInput" in entry && !entry.hadRecentInput) {
+              window.fontLayoutShiftScore += entry.value;
+            }
+          }
+        }).observe({ type: "layout-shift", buffered: true });
+      });
+      await page.setViewportSize({ width, height: 900 });
+      try {
+        await page.goto(path, { waitUntil: "domcontentloaded" });
+        await expect.poll(() => page.evaluate(() =>
+          performance.getEntriesByName("first-contentful-paint").length,
+        )).toBe(1);
+        expect(await page.evaluate(() => document.fonts.status)).toBe("loading");
+        const before = await page.locator("header, main, main h1, main section").evaluateAll(
+          (elements) => elements.map((element) => {
+            const { x, y, width, height } = element.getBoundingClientRect();
+            return { x, y, width, height };
+          }),
+        );
+        releaseFont?.();
+        await page.evaluate(() => document.fonts.ready);
+        await page.evaluate(() => new Promise<void>((resolve) => {
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+        }));
+        const after = await page.locator("header, main, main h1, main section").evaluateAll(
+          (elements) => elements.map((element) => {
+            const { x, y, width, height } = element.getBoundingClientRect();
+            return { x, y, width, height };
+          }),
+        );
+        expect(after).toEqual(before);
+        expect(await page.evaluate(() => window.fontLayoutShiftScore)).toBe(0);
+      } finally {
+        releaseFont?.();
+      }
+    });
+  }
+}
+
 for (const path of ["/", "/success"]) {
   for (const width of [375, 480, 481, 899, 900, 901, 1440]) {
     test(`${path} renders without overflow or external assets at ${width}px`, async ({ page }) => {

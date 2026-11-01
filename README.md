@@ -31,6 +31,9 @@ published from the correct location.
 
 The small global stylesheet is inlined by Bascik. Inter is self-hosted as a
 preloaded Latin variable WOFF2 font, with its license in `src/pages/fonts/`.
+It uses `font-display: optional` to prevent a late font download from reflowing
+already-visible text. Fast or cached loads use Inter; slow loads retain the
+system fallback for that visit rather than causing layout shift.
 Logo images reserve their dimensions; footer images are lazy-loaded. The build
 also generates `llms.txt` from indexable pages. Company profile links and
 structured-data `sameAs` values share `src/lib/site.ts`.
@@ -50,7 +53,9 @@ npm test
 
 The browser tests cover both routes at mobile, desktop, and breakpoint-edge
 widths, form validation, keyboard navigation, no-JavaScript behavior, and
-crawler metadata. The Netlify form is never submitted by tests.
+crawler metadata. Delayed-font tests require zero layout shift and unchanged
+section geometry after the download completes. The Netlify form is never
+submitted by tests.
 
 For Lighthouse, serve the production build with `npx bascik --server` and audit
 `http://localhost:8080/` and `/success` in mobile and desktop modes. The
