@@ -1,0 +1,19 @@
+<!-- @bascik
+Shared site branding and primary navigation.
+@prop nav-label - Visible label for the primary navigation link.
+@prop nav-href - Destination of the primary navigation link.
+-->
+<header class="site-header" data-testid="site-header">
+  <a href="/" class="logo" aria-label="Rinsesoft Home">
+    <picture>
+      <source media="(max-width: 480px)" width="60" height="34"
+        srcset="/img/rinsesoft-insignia-60.webp 1x, /img/rinsesoft-insignia-120.webp 2x, /img/rinsesoft-insignia-180.webp 3x">
+      <img src="/img/rinsesoft-logo-no-rs-210.webp" width="210" height="27"
+        srcset="/img/rinsesoft-logo-no-rs-210.webp 1x, /img/rinsesoft-logo-no-rs-420.webp 2x, /img/rinsesoft-logo-no-rs-630.webp 3x"
+        alt="Rinsesoft Logo" class="logo-image">
+    </picture>
+  </a>
+  <nav aria-label="Primary navigation" data-testid="site-nav">
+    <a data-bascik-attr-href="nav-href" data-bascik-prop-nav-label data-testid="site-header-link"></a>
+  </nav>
+</header>

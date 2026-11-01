@@ -1,0 +1,39 @@
+.site-header {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+@media (min-width: 900px) {
+  .site-header {
+    padding: 2rem 0;
+  }
+
+  .logo-image {
+    height: 26px;
+  }
+}

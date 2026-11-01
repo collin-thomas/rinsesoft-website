@@ -1,0 +1,31 @@
+<!-- @bascik
+Netlify contact request form.
+-->
+<section class="contact" data-testid="contact-section">
+  <div class="contact-layout">
+    <header class="contact-header">
+      <h2>Ready to scale?</h2>
+      <p>Tell us where your operations are slowing down. We specialize in translating business bottlenecks into
+        strategic architectural solutions.</p>
+    </header>
+    <form name="contact" method="POST" action="/success" data-netlify="true" data-testid="contact-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" required
+          data-testid="contact-section-name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="email@company.com" required
+          data-testid="contact-section-email">
+      </div>
+      <div class="form-group">
+        <label for="message">Where is the primary friction in your current operation?</label>
+        <textarea id="message" name="message" rows="5"
+          placeholder="e.g., 'Our manual reconciliation takes 10 days' or 'We lack real-time visibility into unit margins'..."
+          required data-testid="contact-section-message"></textarea>
+      </div>
+      <button type="submit" class="submit-button" data-testid="contact-section-submit">Submit Request</button>
+    </form>
+  </div>
+</section>
