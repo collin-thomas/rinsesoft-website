@@ -246,12 +246,43 @@ test("the homepage has no diagram or portrait and About retains the portrait", a
 test("the homepage positions AI as a business opportunity, not a default solution", async ({ page }) => {
   await page.goto("/");
   const section = page.getByTestId("problem-section");
+  await expect(section.getByTestId("owner-situation")).toHaveCount(3);
+  await expect(section.getByRole("heading", { name: /Not your daily workload/ })).toBeVisible();
+  await expect(section.getByRole("heading", { name: /Ready for the next chapter/ })).toBeVisible();
+  await expect(section.getByRole("heading", { name: /You see opportunity/ })).toBeVisible();
   await expect(section.getByText(/AI opens new opportunities/)).toBeVisible();
   await expect(section).toContainText("measurable value");
   await expect(section).toContainText("simpler automation or better-connected systems");
 });
 
 for (const width of [390, 970, 1440]) {
+  test(`owner situations alternate on desktop and stack heading-first on mobile at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const situations = await page.getByTestId("owner-situation").all();
+    expect(situations).toHaveLength(3);
+    for (const [index, section] of situations.entries()) {
+      const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
+      const copy = await section.locator("p").first().boundingBox();
+      const header = await section.locator("header").boundingBox();
+      const body = await section.locator("header + div").boundingBox();
+      expect(heading).not.toBeNull();
+      expect(copy).not.toBeNull();
+      expect(header).not.toBeNull();
+      expect(body).not.toBeNull();
+      if (width >= 900) {
+        expect(Math.abs(header!.y - body!.y)).toBeLessThan(1);
+      }
+      if (width < 900) {
+        expect(copy!.y).toBeGreaterThan(heading!.y + heading!.height);
+      } else if (index % 2 === 0) {
+        expect(heading!.x + heading!.width).toBeLessThan(copy!.x);
+      } else {
+        expect(copy!.x + copy!.width).toBeLessThan(heading!.x);
+      }
+    }
+  });
+
   test(`services overview link sits with its introduction above the cards at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
