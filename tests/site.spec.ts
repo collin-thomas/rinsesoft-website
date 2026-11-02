@@ -265,6 +265,7 @@ for (const width of [390, 970, 1440]) {
     const cards = page.getByTestId("engagement-step");
     await expect(cards).toHaveCount(3);
     for (const card of await cards.all()) {
+      await expect(card).not.toContainText(/months|multi-year|focused sprint/i);
       const heading = await card.getByRole("heading", { level: 3 }).boundingBox();
       const intro = await card.locator("header > p").boundingBox();
       expect(heading).not.toBeNull();
@@ -272,7 +273,16 @@ for (const width of [390, 970, 1440]) {
       expect(intro!.y).toBeGreaterThan(heading!.y + heading!.height);
       expect(intro!.x).toBe(heading!.x);
       await expect(card.getByRole("heading", { name: "What we focus on" })).toBeVisible();
-      await expect(card.getByRole("heading", { name: "What you leave with" })).toBeVisible();
+      await expect(card.getByRole("heading", { name: "How we partner" })).toBeVisible();
+      await expect(card).not.toContainText(/leave with|handover/i);
+      const cardBox = await card.boundingBox();
+      const outcomeBox = await card.getByTestId("engagement-step-outcome").boundingBox();
+      const scopeBox = await card.getByRole("list").boundingBox();
+      expect(cardBox).not.toBeNull();
+      expect(outcomeBox).not.toBeNull();
+      expect(scopeBox).not.toBeNull();
+      expect(outcomeBox!.y).toBeGreaterThan(scopeBox!.y + scopeBox!.height);
+      expect(Math.abs(outcomeBox!.width - cardBox!.width)).toBeLessThanOrEqual(2);
     }
   });
 
