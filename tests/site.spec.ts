@@ -243,6 +243,14 @@ test("the homepage has no diagram or portrait and About retains the portrait", a
   expect(portrait.ok()).toBe(true);
 });
 
+test("the homepage positions AI as a business opportunity, not a default solution", async ({ page }) => {
+  await page.goto("/");
+  const section = page.getByTestId("problem-section");
+  await expect(section.getByText(/AI opens new opportunities/)).toBeVisible();
+  await expect(section).toContainText("measurable value");
+  await expect(section).toContainText("simpler automation or better-connected systems");
+});
+
 for (const width of [390, 970, 1440]) {
   test(`services overview link sits with its introduction above the cards at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });

@@ -68,11 +68,22 @@
   display: block;
 }
 
+.social-links a:hover,
+.social-links a:focus-visible {
+  color: var(--accent);
+}
+
 .attribution {
   margin-bottom: 1rem;
 }
 
 .attribution a {
   color: var(--text-main);
+  text-decoration: none;
   text-underline-offset: 0.2em;
+}
+
+.attribution a:hover,
+.attribution a:focus-visible {
+  text-decoration: underline;
 }
