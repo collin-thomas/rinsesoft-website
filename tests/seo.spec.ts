@@ -47,12 +47,12 @@ test("every page has complete, unique metadata and a distinct, decodable social 
       "og:title": title, "og:description": description!, "og:url": canonical,
       "og:locale": "en_US",
       "og:site_name": "Rinsesoft", "og:type": path.startsWith("/resources/") ? "article" : "website",
-      "og:image:alt": title, "og:image:type": "image/png", "og:image:width": "1200", "og:image:height": "630",
+      "og:image:alt": title, "og:image:type": "image/jpeg", "og:image:width": "1200", "og:image:height": "630",
     })) {
       await expect(page.locator(`meta[property="${property}"]`)).toHaveAttribute("content", value);
     }
     const image = await page.locator('meta[property="og:image"]').getAttribute("content");
-    expect(image).toMatch(/^https:\/\/rinsesoft\.com\/img\/og\/.+\.png$/);
+    expect(image).toMatch(/^https:\/\/rinsesoft\.com\/img\/og\/.+\.jpg$/);
     expect(images.has(image!)).toBe(false);
     images.add(image!);
     for (const [name, value] of Object.entries({
@@ -64,12 +64,12 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     const imagePath = new URL(image!).pathname;
     const response = await request.get(imagePath);
     expect(response.ok()).toBe(true);
-    expect(response.headers()["content-type"]).toContain("image/png");
-    const png = await response.body();
-    expect(png.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
-    expect(png.readUInt32BE(16)).toBe(1200);
-    expect(png.readUInt32BE(20)).toBe(630);
-    pixels.add(createHash("sha256").update(png).digest("hex"));
+    expect(response.headers()["content-type"]).toContain("image/jpeg");
+    const jpeg = await response.body();
+    expect(jpeg.subarray(0, 3).toString("hex")).toBe("ffd8ff");
+    expect(jpeg.subarray(-2).toString("hex")).toBe("ffd9");
+    expect(jpeg.length).toBeLessThan(1_000_000);
+    pixels.add(createHash("sha256").update(jpeg).digest("hex"));
     expect(await page.evaluate(async (src) => {
       const image = new Image();
       image.src = src;

@@ -85,10 +85,10 @@ try {
     if (!fits) throw new Error(`OG card text does not fit the 1200x630 canvas: ${file}`);
     const output = join(outDir, socialImagePath(pagePath).slice(1));
     await mkdir(dirname(output), { recursive: true });
-    await page.screenshot({ path: output, type: "png" });
+    await page.screenshot({ path: output, type: "jpeg", quality: 85 });
     count++;
   }
 } finally {
   await browser.close();
 }
-console.log(`[og-images] Generated ${count} page-specific 1200x630 PNG cards.`);
+console.log(`[og-images] Generated ${count} page-specific 1200x630 JPEG cards.`);

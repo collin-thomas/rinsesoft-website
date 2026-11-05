@@ -23,10 +23,12 @@ Set `BASCIK_SITE_URL` so Bascik can generate canonical URLs, `sitemap.xml`, and
 npm run build
 ```
 
-The build generates a unique 1200x630 PNG social card for every page at
+The build generates a unique 1200x630 JPEG social card for every page at
 `dist/img/og/`, using that page's visible H1 headline and meta description, the original
 logo, and the self-hosted Inter font. Install the renderer once locally with
 `npx playwright install chromium`; Netlify installs it before building.
+Cards use `.jpg` URLs, JPEG quality 85, and matching `image/jpeg` metadata,
+following the format used by the original social image and Bascik's docs.
 Cards are regenerated from compiled page content on every build, including the
 non-indexed confirmation page. No browser or extra script is shipped to visitors.
 Open Graph and Twitter metadata share each page's card and descriptive image alt
@@ -105,8 +107,7 @@ Responsive WebP candidates for that portrait use width descriptors; its `sizes` 
 matches the 250px homepage cap and the About page's two-column layout. The source copy
 is kept in `image-originals/`; regenerate candidate WebPs from it when the portrait or
 its display sizes change. Header and footer logos already use WebP density `srcset`s.
-The Open Graph previews and platform icons use PNG and SVG formats for
-compatibility.
+The Open Graph previews use JPEG; platform icons use PNG, SVG, and ICO.
 The contact form includes company and engagement focus fields; it remains a native
 Netlify POST form with a `/success` redirect and works without JavaScript.
 General discovery CTAs open the inquiry page, not an external calendar. Previous
