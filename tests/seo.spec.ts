@@ -41,13 +41,18 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     await expect(page.locator("title")).toHaveCount(1);
     await expect(page.locator('meta[name="description"]')).toHaveCount(1);
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    const socialTitle = title.replace(/ \| Rinsesoft$/, "");
+    const touchIcon = await page.locator('link[rel="apple-touch-icon"]').getAttribute("href");
+    const icon = await (await request.get(touchIcon!)).body();
+    expect(icon.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
+    expect([icon.readUInt32BE(16), icon.readUInt32BE(20)]).toEqual([180, 180]);
     const canonical = `https://rinsesoft.com${path}`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical);
     for (const [property, value] of Object.entries({
-      "og:title": title, "og:description": description!, "og:url": canonical,
+      "og:title": socialTitle, "og:description": description!, "og:url": canonical,
       "og:locale": "en_US",
       "og:site_name": "Rinsesoft", "og:type": path.startsWith("/resources/") ? "article" : "website",
-      "og:image:alt": title, "og:image:type": "image/jpeg", "og:image:width": "1200", "og:image:height": "630",
+      "og:image:alt": socialTitle, "og:image:type": "image/jpeg", "og:image:width": "1200", "og:image:height": "630",
     })) {
       await expect(page.locator(`meta[property="${property}"]`)).toHaveAttribute("content", value);
     }
@@ -56,8 +61,8 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     expect(images.has(image!)).toBe(false);
     images.add(image!);
     for (const [name, value] of Object.entries({
-      "twitter:card": "summary_large_image", "twitter:title": title,
-      "twitter:description": description!, "twitter:image": image!, "twitter:image:alt": title,
+      "twitter:card": "summary_large_image", "twitter:title": socialTitle,
+      "twitter:description": description!, "twitter:image": image!, "twitter:image:alt": socialTitle,
     })) {
       await expect(page.locator(`meta[name="${name}"]`)).toHaveAttribute("content", value);
     }

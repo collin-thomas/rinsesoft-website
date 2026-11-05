@@ -1,13 +1,22 @@
+import { readFile } from "node:fs/promises";
 import { html, json } from "@bascik/bascik/html";
 import { site as company } from "../../lib/site.ts";
 import { socialImagePath } from "../../lib/social-image.ts";
+import { socialTitle } from "./social-title.ts";
 
-export default () => {
+export default async () => {
   const pagePath = process.env.BASCIK_PAGE_PATH ?? "/";
+  const pageFile = process.env.BASCIK_PAGE_FILE;
+  if (!pageFile) throw new Error("BASCIK_PAGE_FILE is required to build social titles.");
+  const title = socialTitle(await readFile(pageFile, "utf8"), company.name);
   const type = pagePath.startsWith("/resources/") ? "article" : "website";
   const openGraphType = html`
     <meta property="og:type" content="${type}">
     <meta property="og:site_name" content="${company.name}">
+    <meta property="og:title" content="${title}">
+    <meta property="og:image:alt" content="${title}">
+    <meta name="twitter:title" content="${title}">
+    <meta name="twitter:image:alt" content="${title}">
   `;
   const siteUrl = process.env.BASCIK_SITE_URL;
   if (!siteUrl) return openGraphType;

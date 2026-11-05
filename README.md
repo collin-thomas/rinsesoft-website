@@ -108,6 +108,10 @@ matches the 250px homepage cap and the About page's two-column layout. The sourc
 is kept in `image-originals/`; regenerate candidate WebPs from it when the portrait or
 its display sizes change. Header and footer logos already use WebP density `srcset`s.
 The Open Graph previews use JPEG; platform icons use PNG, SVG, and ICO.
+The `apple-touch-icon` is a square, opaque 180x180 PNG; Apple's Messages
+previews (TN3156) expect square icons, and the previous 5000x2761 insignia PNG
+coincided with missing iPhone previews. `og:title` and `twitter:title` drop the
+trailing `| Rinsesoft` from the page title, since `og:site_name` carries the brand.
 The contact form includes company and engagement focus fields; it remains a native
 Netlify POST form with a `/success` redirect and works without JavaScript.
 General discovery CTAs open the inquiry page, not an external calendar. Previous
