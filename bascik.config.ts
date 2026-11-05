@@ -16,7 +16,7 @@ export default defineConfig({
       {
         script: "scripts/og-images.ts",
         phase: "post",
-        watch: ["src/pages/", "src/components/site-head/", "src/lib/social-image.ts", "scripts/og-images.ts"],
+        watch: ["src/pages/", "src/components/", "src/lib/social-image.ts", "scripts/og-images.ts", "scripts/og-content.ts"],
       },
     ],
   },

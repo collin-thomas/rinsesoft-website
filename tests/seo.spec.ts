@@ -36,6 +36,8 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     descriptions.add(description!);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.locator('meta[name="viewport"]')).toHaveCount(1);
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#f8f8f3");
+    await expect(page.locator('meta[name="twitter:site"]')).toHaveCount(0);
     await expect(page.locator("title")).toHaveCount(1);
     await expect(page.locator('meta[name="description"]')).toHaveCount(1);
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
@@ -43,6 +45,7 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical);
     for (const [property, value] of Object.entries({
       "og:title": title, "og:description": description!, "og:url": canonical,
+      "og:locale": "en_US",
       "og:site_name": "Rinsesoft", "og:type": path.startsWith("/resources/") ? "article" : "website",
       "og:image:alt": title, "og:image:type": "image/png", "og:image:width": "1200", "og:image:height": "630",
     })) {

@@ -24,14 +24,17 @@ npm run build
 ```
 
 The build generates a unique 1200x630 PNG social card for every page at
-`dist/img/og/`, using that page's existing title and description, the original
+`dist/img/og/`, using that page's visible H1 headline and meta description, the original
 logo, and the self-hosted Inter font. Install the renderer once locally with
 `npx playwright install chromium`; Netlify installs it before building.
-Cards are regenerated from compiled metadata on every build, including the
+Cards are regenerated from compiled page content on every build, including the
 non-indexed confirmation page. No browser or extra script is shipped to visitors.
 Open Graph and Twitter metadata share each page's card and descriptive image alt
 text. The homepage also declares the Rinsesoft `WebSite` identity in JSON-LD;
 resource articles reference their page-specific image in Article structured data.
+The shared head declares `og:locale=en_US` and a theme color matching the off-white
+background. `twitter:site` is intentionally omitted because there is no brand
+X/Twitter account; Twitter card previews still work without it.
 
 The contact form is a Netlify form. Its successful submission continues to
 redirect to `/success`, which is intentionally excluded from the sitemap.

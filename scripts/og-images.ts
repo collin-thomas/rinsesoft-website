@@ -2,8 +2,8 @@ import { mkdir, readFile, readdir } from "node:fs/promises";
 import { dirname, join, relative, sep } from "node:path";
 import { html } from "@bascik/bascik/html";
 import { chromium } from "@playwright/test";
-import { parse, type DefaultTreeAdapterMap } from "parse5";
 import { socialImagePath } from "../src/lib/social-image.ts";
+import { ogContent } from "./og-content.ts";
 
 const outDir = process.env.BASCIK_OUT_DIR;
 if (!outDir) throw new Error("BASCIK_OUT_DIR is required to generate OG images.");
@@ -16,26 +16,6 @@ async function pageFiles(directory: string): Promise<string[]> {
     else if (entry.name.endsWith(".html")) files.push(path);
   }
   return files.sort();
-}
-
-function metadata(source: string, file: string) {
-  const elements: DefaultTreeAdapterMap["element"][] = [];
-  function visit(node: DefaultTreeAdapterMap["node"]): void {
-    if ("tagName" in node) elements.push(node);
-    if ("childNodes" in node) node.childNodes.forEach(visit);
-  }
-  visit(parse(source));
-  const attribute = (element: DefaultTreeAdapterMap["element"], name: string) =>
-    element.attrs.find((attribute) => attribute.name === name)?.value;
-  const text = (node: DefaultTreeAdapterMap["node"]): string =>
-    "value" in node ? node.value : "childNodes" in node ? node.childNodes.map(text).join("") : "";
-  const title = elements.find((element) => element.tagName === "title");
-  const description = elements.find((element) =>
-    element.tagName === "meta" && attribute(element, "name") === "description");
-  if (!title || !description || !text(title).trim() || !attribute(description, "content")?.trim()) {
-    throw new Error(`Missing title or description for OG image: ${file}`);
-  }
-  return { title: text(title).replace(/\s*\|\s*Rinsesoft$/, ""), description: attribute(description, "content")! };
 }
 
 const assets = new Map([
@@ -56,7 +36,7 @@ try {
   for (const file of await pageFiles(outDir)) {
     const path = relative(outDir, file).split(sep).join("/").replace(/\.html$/, "");
     const pagePath = path === "index" ? "/" : `/${path.replace(/\/index$/, "/")}`;
-    const { title, description } = metadata(await readFile(file, "utf8"), file);
+    const { headline, description } = ogContent(await readFile(file, "utf8"), file);
     await page.setContent(String(html`<!DOCTYPE html>
       <html lang="en"><head><meta charset="utf-8"><style>
         @font-face {
@@ -80,7 +60,7 @@ try {
         .rule { flex: 1; height: 1px; background: #d8dfd5; }
       </style></head><body>
         <header><img src="https://og-assets.invalid/logo.webp" alt="Rinsesoft"><span class="mark"></span></header>
-        <main><h1>${title}</h1><p>${description}</p></main>
+        <main><h1>${headline}</h1><p>${description}</p></main>
         <footer><span class="rule"></span><span>${pagePath}</span></footer>
       </body></html>`));
     await page.evaluate(async () => {
