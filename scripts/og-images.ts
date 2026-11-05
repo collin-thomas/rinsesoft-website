@@ -52,14 +52,13 @@ try {
         }
         header { display: flex; align-items: center; justify-content: space-between; }
         img { width: 280px; height: 35px; object-fit: contain; }
-        .mark { width: 48px; height: 8px; border-radius: 4px; background: #ccff00; }
         main { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
         h1 { margin: 0; max-width: 1030px; font-size: 58px; line-height: 1.12; font-weight: 650; letter-spacing: -2px; }
         p { margin: 0; max-width: 980px; font-size: 25px; line-height: 1.5; color: #566159; }
         footer { display: flex; align-items: center; gap: 18px; font-size: 18px; color: #566159; }
         .rule { flex: 1; height: 1px; background: #d8dfd5; }
       </style></head><body>
-        <header><img src="https://og-assets.invalid/logo.webp" alt="Rinsesoft"><span class="mark"></span></header>
+        <header><img src="https://og-assets.invalid/logo.webp" alt="Rinsesoft"></header>
         <main><h1>${headline}</h1><p>${description}</p></main>
         <footer><span class="rule"></span><span>${pagePath}</span></footer>
       </body></html>`));

@@ -417,6 +417,8 @@ for (const width of [375, 899, 900, 1440]) {
     await expect(page.locator("body")).toHaveCSS("background-color", "rgb(248, 248, 243)");
     await expect(page.getByTestId("home-hero-approach")).toHaveCSS("background-color", "rgb(238, 240, 232)");
     await expect(page.getByTestId("site-header-contact")).toHaveCSS("background-color", "rgb(204, 255, 0)");
+    await page.getByTestId("site-header-contact").hover();
+    await expect(page.getByTestId("site-header-contact")).toHaveCSS("text-decoration-line", "none");
     await expect(page.getByTestId("home-hero-consultation")).toHaveCSS("background-color", "rgb(32, 45, 39)");
     await page.getByTestId("home-hero-consultation").hover();
     await expect(page.getByTestId("home-hero-consultation")).toHaveCSS("background-color", "rgb(204, 255, 0)");

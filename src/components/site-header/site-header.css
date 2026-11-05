@@ -35,6 +35,11 @@
   border-radius: 3px;
 }
 
+.site-header nav .contact-link:hover,
+.site-header nav .contact-link[aria-current="page"] {
+  text-decoration: none;
+}
+
 .site-header nav .contact-link:hover {
   background: var(--accent-hover);
 }

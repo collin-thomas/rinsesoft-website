@@ -35,6 +35,10 @@ resource articles reference their page-specific image in Article structured data
 The shared head declares `og:locale=en_US` and a theme color matching the off-white
 background. `twitter:site` is intentionally omitted because there is no brand
 X/Twitter account; Twitter card previews still work without it.
+Netlify serves generated `/img/og/*` cards with `max-age=0, must-revalidate`
+because these stable URLs change when page copy or card styling changes. Other
+image assets retain the 30-day cache policy. Messaging apps may independently
+cache previews even after the deployed image has changed.
 
 The contact form is a Netlify form. Its successful submission continues to
 redirect to `/success`, which is intentionally excluded from the sitemap.
