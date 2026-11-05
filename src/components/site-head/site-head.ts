@@ -33,7 +33,7 @@ export default () => {
       "@id": `${home}#organization`,
       name: company.name,
       description:
-        "Rinsesoft helps founders and executive teams improve operations and build capacity for growth, combining fractional CTO leadership with hands-on implementation.",
+        "Rinsesoft helps founders improve operations with practical technology leadership and hands-on implementation, with or without an in-house tech team.",
       url: home,
       logo: new URL(`${base}/img/rinsesoft-insignia-180.webp`, site).toString(),
       sameAs: company.profiles.map((profile) => profile.url),

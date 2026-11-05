@@ -87,7 +87,7 @@ confirmation page deliberately fails the crawlability audit because it is
 ## Pages and content
 
 - `/`: positioning, business outcomes, and founder-led delivery overview.
-- `/services`: discovery, architecture and implementation, and fractional CTO engagements.
+- `/services`: discovery, architecture and implementation, and optional senior technology leadership, including fractional CTO support.
 - `/about`: principal biography, industry background, and specialist delivery model.
 - `/contact`: discovery inquiry form and direct email contact.
 - `/owner-bottlenecks`: ungated, problem-led guide for owners whose daily work
@@ -122,8 +122,9 @@ the hidden field tracks form inquiries, not calendar bookings.
 The new page is included automatically in the sitemap and generated `llms.txt`.
 
 The homepage leads with stronger operations and capacity for growth, supported by
-process improvement, fractional CTO leadership, and hands-on implementation
-rather than recommendations alone. Copy should address founders and executives at
+process improvement, business-first technology leadership, and hands-on implementation
+rather than recommendations alone. Fractional CTO support is an optional role, not
+an assumption that a client already has a technology department. Copy should address founders and executives at
 established businesses with $10M-$100M+ annual revenue and 50-200+ employees,
 using credible, executive-level language rather than small-business coaching.
 The current-state to desired-outcome framing belongs in supporting resources,
