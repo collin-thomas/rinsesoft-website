@@ -49,9 +49,16 @@ async function addPages(directory: string): Promise<void> {
   }
 }
 
-await addPages(outDir);
-lines.push("", "## Company profiles", "", ...site.profiles.map(
-  (profile) => `- [${profile.label}](${profile.url})`,
-), "");
-await writeFile(join(outDir, "llms.txt"), lines.join("\n"));
-console.log("[llms-txt] Generated llms.txt from indexable pages.");
+if (!process.env.BASCIK_SITE_URL) {
+  if (process.env.BASCIK_BUILD === "1") {
+    throw new Error("BASCIK_SITE_URL is required to generate llms.txt for production.");
+  }
+  console.log("[llms-txt] Skipping llms.txt: set BASCIK_SITE_URL to generate canonical page links.");
+} else {
+  await addPages(outDir);
+  lines.push("", "## Company profiles", "", ...site.profiles.map(
+    (profile) => `- [${profile.label}](${profile.url})`,
+  ), "");
+  await writeFile(join(outDir, "llms.txt"), lines.join("\n"));
+  console.log("[llms-txt] Generated llms.txt from indexable pages.");
+}

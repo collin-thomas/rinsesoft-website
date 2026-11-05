@@ -10,6 +10,10 @@ npm install
 npm run dev
 ```
 
+Development works without `BASCIK_SITE_URL`; canonical metadata and `llms.txt`
+are omitted, and the generator logs that it skipped generation. Copy
+`.env.example` to `.env` to enable them locally, then restart the dev server.
+
 ## Production build
 
 Set `BASCIK_SITE_URL` so Bascik can generate canonical URLs, `sitemap.xml`, and
@@ -46,6 +50,7 @@ so the cache policy deliberately does not use `immutable`.
 
 ```sh
 npm run check
+node --test scripts/llms-txt.test.ts
 npx playwright install chromium
 BASCIK_SITE_URL=https://rinsesoft.com npm run build
 npm test

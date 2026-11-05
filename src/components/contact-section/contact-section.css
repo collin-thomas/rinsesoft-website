@@ -15,6 +15,74 @@
   margin-bottom: 2.5rem;
 }
 
+.meeting-card {
+  padding: 1.5rem;
+  margin: 0 0 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
+}
+
+.meeting-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.meeting-card-label {
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.meeting-duration {
+  flex: none;
+  padding: 0.3rem 0.55rem;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.meeting-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+}
+
+.meeting-card p {
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.meeting-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 46px;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.meeting-link:hover {
+  background: #e0ff66;
+}
+
+.contact-header .email-prompt {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+}
+
 .contact-header .expectation {
   margin-top: 2rem;
   font-size: 0.85rem;

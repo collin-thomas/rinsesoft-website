@@ -133,6 +133,11 @@ test("discovery navigation and native form validation work", async ({ page }) =>
     message: "Testing native validation without submitting.",
   });
   await expect(page.getByTestId("contact-section-direct-email")).toHaveAttribute("href", "mailto:info@rinsesoft.com");
+  await expect(page.getByTestId("contact-section-schedule")).toHaveAttribute(
+    "href",
+    "https://scheduler.zoom.us/collin-thomas/30-minute-meeting-with-collin-from-rinsesoft",
+  );
+  await expect(page.getByTestId("contact-section-schedule")).toHaveAttribute("target", "_blank");
 });
 
 test("skip link moves keyboard focus and reduced motion is respected", async ({ page }) => {
