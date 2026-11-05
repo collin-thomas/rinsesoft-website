@@ -22,7 +22,8 @@
 }
 
 .services-link:hover {
-  color: var(--accent);
+  color: var(--on-accent);
+  background: var(--accent);
   border-color: var(--accent);
 }
 
@@ -33,4 +34,7 @@
     align-items: flex-end;
     gap: 3rem;
   }
+}
+.overview {
+  border-top: 1px solid var(--border);
 }

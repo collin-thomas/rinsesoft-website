@@ -1,0 +1,23 @@
+.resources {
+  border-top: 1px solid var(--border);
+}
+
+.guides {
+  display: grid;
+  gap: 0;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .guides {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .guides > * {
+    grid-column: span 2;
+  }
+
+  .guides > :nth-child(-n + 2) {
+    grid-column: span 3;
+  }
+}

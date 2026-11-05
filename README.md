@@ -23,6 +23,16 @@ Set `BASCIK_SITE_URL` so Bascik can generate canonical URLs, `sitemap.xml`, and
 npm run build
 ```
 
+The build generates a unique 1200x630 PNG social card for every page at
+`dist/img/og/`, using that page's existing title and description, the original
+logo, and the self-hosted Inter font. Install the renderer once locally with
+`npx playwright install chromium`; Netlify installs it before building.
+Cards are regenerated from compiled metadata on every build, including the
+non-indexed confirmation page. No browser or extra script is shipped to visitors.
+Open Graph and Twitter metadata share each page's card and descriptive image alt
+text. The homepage also declares the Rinsesoft `WebSite` identity in JSON-LD;
+resource articles reference their page-specific image in Article structured data.
+
 The contact form is a Netlify form. Its successful submission continues to
 redirect to `/success`, which is intentionally excluded from the sitemap.
 
@@ -56,7 +66,7 @@ BASCIK_SITE_URL=https://rinsesoft.com npm run build
 npm test
 ```
 
-The browser tests cover all five routes at mobile, desktop, and breakpoint-edge
+The browser tests cover the public routes at mobile, desktop, and breakpoint-edge
 widths, form validation, keyboard navigation, no-JavaScript behavior, and
 crawler metadata. Delayed-font tests require zero layout shift and unchanged
 section geometry after the download completes. The Netlify form is never
@@ -73,10 +83,96 @@ confirmation page deliberately fails the crawlability audit because it is
 - `/services`: discovery, architecture and implementation, and fractional CTO engagements.
 - `/about`: principal biography, industry background, and specialist delivery model.
 - `/contact`: discovery inquiry form and direct email contact.
+- `/owner-bottlenecks`: ungated, problem-led guide for owners whose daily work
+  keeps coming back to them, with a workflow exercise and contextual inquiry form.
+- `/business-check`: interactive two-question walkthrough with three entry paths,
+  six practical starting points, and a persistent external scheduling link.
+- `/resources`: ungated guide hub, also linked from shared navigation and the homepage.
+- `/resources/business-problem-roadmap`: founder-authored roadmap guide with an
+  illustrative workflow example and a copyable, six-question planning brief.
 - `/success`: non-indexed Netlify form confirmation.
 
-The founder portrait appears only on About, using `src/pages/img/collin-thomas-2026.webp`.
+The founder portrait appears on Home and About, using `src/pages/img/collin-thomas-2026.webp`.
+The below-the-fold homepage portrait is lazy-loaded; About retains its priority image.
+Responsive WebP candidates for that portrait use width descriptors; its `sizes` value
+matches the 250px homepage cap and the About page's two-column layout. The source copy
+is kept in `image-originals/`; regenerate candidate WebPs from it when the portrait or
+its display sizes change. Header and footer logos already use WebP density `srcset`s.
+The Open Graph previews and platform icons use PNG and SVG formats for
+compatibility.
 The contact form includes company and engagement focus fields; it remains a native
 Netlify POST form with a `/success` redirect and works without JavaScript.
-Discovery CTAs open the inquiry page, not an external calendar. Previous
+General discovery CTAs open the inquiry page, not an external calendar. Previous
 homepage `#contact` links land on the contact call to action.
+
+The first problem-led funnel starts at the homepage's "Why does everything still
+come back to you?" link, or at `/owner-bottlenecks` shared directly in outreach.
+Its invitation jumps to the on-page conversation form; no email is required to
+read the guide. It reuses the native contact form and booking link, with an
+`entry-point` field of `owner-bottlenecks` (or `general` on `/contact`) so form
+inquiries retain their context. The calendar remains an external booking service;
+the hidden field tracks form inquiries, not calendar bookings.
+The new page is included automatically in the sitemap and generated `llms.txt`.
+
+The homepage leads with stronger operations and capacity for growth, supported by
+process improvement, fractional CTO leadership, and hands-on implementation
+rather than recommendations alone. Copy should address founders and executives at
+established businesses with $10M-$100M+ annual revenue and 50-200+ employees,
+using credible, executive-level language rather than small-business coaching.
+The current-state to desired-outcome framing belongs in supporting resources,
+not as a replacement for the homepage's strategic positioning. The roadmap
+article explains that approach without presenting hypothetical examples as client
+results. It includes Article structured data. The shared head gives articles under
+`/resources/` article-type social previews; the hub and other pages retain
+website-type previews. No private client material is published.
+
+### Visual and editorial direction
+
+The shared design uses off-white backgrounds, white cards, and dark text.
+Rinsesoft's original outlined logos are unchanged. Lime (`#ccff00`) is used
+sparingly for the "Let's talk" link and hover accents, not headings or body text.
+Typography, spacing, and subtle light panels provide the visual hierarchy.
+Faint connected-node linework, a low-opacity lime wash, small service-card glyphs,
+and soft panel shadows add depth without changing the content layout. The hero
+wash is painted on the full-width page body, not a text-width component, and
+fades naturally into the off-white background on all routes. The hero
+linework draws once over four seconds, then stops; reduced-motion preferences
+disable all animation and retain the complete static decoration. Decorative
+linework is top-aligned within the hero so its upper rail stays at least 24px
+above the approach card at desktop breakpoints, rather than drifting with height.
+Decorative
+SVGs are hidden from assistive technology, the background cannot intercept clicks,
+and no animation library or external asset is loaded.
+Color and contrast tokens live in `src/pages/css/styles.css`; component styles
+reference them so forms, articles, and the business-check flow stay consistent.
+The existing logo assets retain their original colors without recoloring filters.
+
+The homepage explains the engagement in four steps: understand the business,
+improve the process, build and prove it, then measure and expand. Service copy
+follows the same discipline: establish a baseline, agree scope, put working
+systems in the team's hands, and choose subsequent investments together.
+Client proposals inform the voice and methodology only. Names, internal metrics,
+commercial terms, and proposed results are not published as marketing proof.
+
+To add another guide, create its page under `src/pages/resources/`, give it unique
+metadata, and add a `resource-card` to `resources-list`. The shared list appears on
+both the homepage and the hub. Add the route to the browser test matrix as well.
+The sitemap and `llms.txt` include indexable pages automatically. These are
+discoverability foundations, not guarantees of search ranking or AI recommendations.
+
+The alternative interactive funnel is linked from the homepage's "Not sure where
+to start?" link and the owner bottleneck guide. Visitors choose owner dependency,
+growth friction, or unclear numbers, then answer a branch-specific follow-up.
+Only their matching starting point is shown. Back and Start over let them explore
+other paths. Answers stay in page memory: no submission, browser storage, or lead
+gate. Without JavaScript, all six starting points are readable instead.
+The walkthrough at `/business-check` uses one-click navigation. Selecting a radio card advances
+immediately, including keyboard selection; the instruction warns of that behavior
+before the first question. Back clears the returned question's selection so the
+same choice can be selected again. There is no Continue button or experiment switch.
+Older links with `?flow=auto` still open the same one-click walkthrough.
+Each starting point puts a "Continue this discussion with us" booking invitation alongside
+"Where we could help" in every result.
+The fixed call bar also links directly to the existing calendar at every step and
+reserves footer space; the shared `booking-link` component owns that URL for
+results, the call bar, and the contact form. The original guide remains available.

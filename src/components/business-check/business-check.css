@@ -1,0 +1,107 @@
+.check {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+}
+
+.intro {
+  max-width: 800px;
+  margin-bottom: 2.5rem;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+}
+
+.intro p {
+  margin-top: 1.25rem;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+}
+
+.progress {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.instruction {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+legend {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 550;
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+.choices {
+  display: grid;
+  gap: 1rem;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.controls[hidden] {
+  display: none;
+}
+
+.controls button[hidden] {
+  display: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.back {
+  padding: 0.75rem 1rem;
+  min-height: 48px;
+  color: var(--text-main);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.85rem;
+}
+
+.back:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.note,
+.alternative {
+  max-width: 700px;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin-top: 1.75rem;
+}
+
+.alternative a:hover {
+  color: var(--text-main);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+}
+
+@media (min-width: 900px) {
+  .choices {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}

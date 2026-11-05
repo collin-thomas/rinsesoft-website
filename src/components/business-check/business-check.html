@@ -1,0 +1,103 @@
+<!-- @bascik
+Two-question, branching business conversation with readable no-script outcomes.
+-->
+<section class="check" data-testid="business-check">
+  <header class="intro" data-testid="business-check-intro">
+    <span class="eyebrow">Start with your business, not the technology</span>
+    <h1>What's getting in your way?</h1>
+    <p>Two questions. A practical place to start. No email needed.</p>
+  </header>
+  <p id="fallback">Choose the situation below that sounds familiar, or enable JavaScript for a two-question walkthrough.</p>
+  <form id="check-form" action="/business-check" method="GET" aria-label="Find a business starting point" aria-describedby="instruction" data-testid="business-check-form">
+    <p class="instruction" id="instruction" hidden data-testid="business-check-instruction">Selecting an answer takes you straight to the next question or your starting point.</p>
+    <p class="progress" id="progress" role="status" hidden data-testid="business-check-progress"></p>
+    <div id="questions" hidden>
+      <fieldset id="priority">
+        <legend tabindex="-1" data-testid="business-check-question">What feels most familiar right now?</legend>
+        <div class="choices">
+          <check-choice data-bascik-prop-group="priority" data-bascik-prop-value="owner"
+            data-bascik-prop-title="Everything comes back to me."
+            data-bascik-prop-text="The team is busy, but I'm still the person keeping things moving." />
+          <check-choice data-bascik-prop-group="priority" data-bascik-prop-value="growth"
+            data-bascik-prop-title="More work. More friction."
+            data-bascik-prop-text="We're growing, but so are the handoffs, delays, and workarounds." />
+          <check-choice data-bascik-prop-group="priority" data-bascik-prop-value="visibility"
+            data-bascik-prop-title="I can't get a clear picture."
+            data-bascik-prop-text="It's hard to tell what's working, what's overdue, or where the money goes." />
+        </div>
+      </fieldset>
+      <fieldset id="owner">
+        <legend tabindex="-1" data-testid="business-check-question">What pulls you back into the day-to-day?</legend>
+        <div class="choices">
+          <check-choice data-bascik-prop-group="owner" data-bascik-prop-value="decisions"
+            data-bascik-prop-title="People need my approval."
+            data-bascik-prop-text="Even familiar decisions wait until I can weigh in." />
+          <check-choice data-bascik-prop-group="owner" data-bascik-prop-value="answers"
+            data-bascik-prop-title="I'm the one with the answers."
+            data-bascik-prop-text="Details live in my head, my inbox, or places only I know to check." />
+        </div>
+      </fieldset>
+      <fieldset id="growth">
+        <legend tabindex="-1" data-testid="business-check-question">Where does the extra work show up?</legend>
+        <div class="choices">
+          <check-choice data-bascik-prop-group="growth" data-bascik-prop-value="reentry"
+            data-bascik-prop-title="We keep doing the same work twice."
+            data-bascik-prop-text="Copying information, chasing updates, or correcting mismatches." />
+          <check-choice data-bascik-prop-group="growth" data-bascik-prop-value="handoffs"
+            data-bascik-prop-title="Work gets stuck between people."
+            data-bascik-prop-text="Tasks wait, ownership gets fuzzy, and customers end up chasing us." />
+        </div>
+      </fieldset>
+      <fieldset id="visibility">
+        <legend tabindex="-1" data-testid="business-check-question">What's hardest to see clearly?</legend>
+        <div class="choices">
+          <check-choice data-bascik-prop-group="visibility" data-bascik-prop-value="margins"
+            data-bascik-prop-title="Where we're making or losing money."
+            data-bascik-prop-text="Revenue is visible. The effort and costs behind it aren't." />
+          <check-choice data-bascik-prop-group="visibility" data-bascik-prop-value="status"
+            data-bascik-prop-title="What's happening right now."
+            data-bascik-prop-text="An honest status update means checking several places and asking around." />
+        </div>
+      </fieldset>
+    </div>
+    <div id="results" data-testid="business-check-results">
+      <check-result data-bascik-prop-key="decisions" data-bascik-prop-label="When every decision needs you"
+        data-bascik-prop-title="Start with decision ownership."
+        data-bascik-prop-text="Some approvals need your judgment. Others may be waiting simply because nobody knows what they can decide."
+        data-bascik-prop-action="Pick one recurring approval. Agree who can make it, the limits, and when it really needs to come back to you."
+        data-bascik-prop-help="We can map the decision flow with your team and explore whether clearer ownership, better information, or a small workflow change would help." />
+      <check-result data-bascik-prop-key="answers" data-bascik-prop-label="When you're the source of every answer"
+        data-bascik-prop-title="Make one answer easier to find."
+        data-bascik-prop-text="Your team may be relying on you to connect information that isn't available where they do the work."
+        data-bascik-prop-action="Choose a question you answered twice this week. Give the team one agreed place to find and maintain the answer."
+        data-bascik-prop-help="We can trace where information lives and investigate practical ways to make it accessible without adding another tool to check." />
+      <check-result data-bascik-prop-key="reentry" data-bascik-prop-label="When work happens more than once"
+        data-bascik-prop-title="Trace the duplicate work."
+        data-bascik-prop-text="Moving information between tools can quietly consume capacity and create errors. It doesn't always require replacing those tools."
+        data-bascik-prop-action="Follow one order or job. Note where the same detail is copied, who copies it, and what happens when it changes."
+        data-bascik-prop-help="We can assess whether existing features, a simpler process, or an integration could remove the repetition, and weigh the effort against its impact." />
+      <check-result data-bascik-prop-key="handoffs" data-bascik-prop-label="When growth creates more waiting"
+        data-bascik-prop-title="Look at the gap between tasks."
+        data-bascik-prop-text="The bottleneck may be the handoff rather than the work itself: an unclear owner, a missing detail, or no signal that something is ready."
+        data-bascik-prop-action="Pick one delayed job. Find the first point it waited, what was missing, and who needed to take it next."
+        data-bascik-prop-help="We can map that workflow with the people doing it, then investigate ownership, shared visibility, or targeted automation." />
+      <check-result data-bascik-prop-key="margins" data-bascik-prop-label="When revenue doesn't tell the whole story"
+        data-bascik-prop-title="Follow the effort behind one sale."
+        data-bascik-prop-text="A busy business can still have an unclear picture of delivery costs, rework, and the time each job takes."
+        data-bascik-prop-action="Choose one recent job. Compare its revenue with the recorded delivery effort and costs. Note what you can't reliably measure yet."
+        data-bascik-prop-help="We can examine the available operational and financial data, identify gaps, and explore reporting that supports better decisions without false precision." />
+      <check-result data-bascik-prop-key="status" data-bascik-prop-label="When every update needs detective work"
+        data-bascik-prop-title="Agree what an honest status looks like."
+        data-bascik-prop-text="Different tools and people may each hold part of the picture. A new dashboard won't help if its underlying updates aren't reliable."
+        data-bascik-prop-action="Choose one recurring status question. Agree what the answer means, where it comes from, and who keeps it current."
+        data-bascik-prop-help="We can trace the information flow and assess how connected systems or clearer reporting could make exceptions easier to spot." />
+    </div>
+    <div class="controls" id="controls" hidden>
+      <button class="back" id="back" type="button" data-testid="business-check-back">Back</button>
+      <button class="back" id="restart" type="button" data-testid="business-check-restart">Start over</button>
+    </div>
+  </form>
+  <p class="note" id="note">These are starting points to explore, not a diagnosis. Your answers stay on this page and aren't sent or saved.</p>
+  <p class="alternative">Prefer to read? <a href="/owner-bottlenecks" data-testid="business-check-guide">Read the owner bottleneck guide</a>. Or <a href="/contact" data-testid="business-check-contact">send us a note</a>.</p>
+</section>
+<script src="business-check.ts"></script>

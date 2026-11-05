@@ -6,7 +6,10 @@ declare global {
   }
 }
 
-const paths = ["/", "/services", "/about", "/contact", "/success"];
+const paths = [
+  "/", "/services", "/about", "/contact", "/owner-bottlenecks", "/business-check",
+  "/resources", "/resources/business-problem-roadmap", "/privacy", "/success",
+];
 
 for (const path of paths) {
   for (const width of [375, 390, 412, 480, 481, 899, 900, 901, 1440]) {
@@ -126,6 +129,7 @@ test("discovery navigation and native form validation work", async ({ page }) =>
   const fields = await form.evaluate((element) => Object.fromEntries(new FormData(element as HTMLFormElement)));
   expect(fields).toEqual({
     "form-name": "contact",
+    "entry-point": "general",
     name: "Site test",
     company: "Test company",
     focus: "fractional-cto",
@@ -138,6 +142,39 @@ test("discovery navigation and native form validation work", async ({ page }) =>
     "https://scheduler.zoom.us/collin-thomas/30-minute-meeting-with-collin-from-rinsesoft",
   );
   await expect(page.getByTestId("contact-section-schedule")).toHaveAttribute("target", "_blank");
+});
+
+test("owner bottleneck funnel preserves context in a valid native inquiry", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("problem-section-owner-bottlenecks").click();
+  await expect(page).toHaveURL(/\/owner-bottlenecks$/);
+  await expect(page.getByRole("heading", { level: 1 }))
+    .toHaveText("Why does everything still come back to you?");
+  await expect(page.getByTestId("bottleneck-checklist").getByRole("listitem")).toHaveCount(4);
+  await page.getByTestId("owner-bottlenecks-talk").click();
+  await expect(page).toHaveURL(/\/owner-bottlenecks#talk$/);
+  await expect(page.getByTestId("contact-section")).toBeInViewport();
+  await expect(page.getByTestId("contact-section").getByRole("heading", { level: 2 }))
+    .toHaveText("Let's talk through what keeps coming back to you.");
+  await expect(page.getByTestId("contact-section-submit")).toHaveText("Request a conversation");
+  const form = page.getByTestId("contact-form");
+  await expect(form).toHaveAttribute("action", "/success");
+  await expect(form).toHaveAttribute("method", "POST");
+  await expect(form).toHaveAttribute("data-netlify", "true");
+  expect(await form.evaluate((element) => (element as HTMLFormElement).checkValidity())).toBe(false);
+  await page.getByTestId("contact-section-name").fill("Site test");
+  await page.getByTestId("contact-section-company").fill("Test company");
+  await page.getByTestId("contact-section-email").fill("test@example.com");
+  await page.getByTestId("contact-section-message").fill("Every customer update needs me to reconcile three tools.");
+  expect(await form.evaluate((element) => (element as HTMLFormElement).checkValidity())).toBe(true);
+  const fields = await form.evaluate((element) => Object.fromEntries(new FormData(element as HTMLFormElement)));
+  expect(fields).toMatchObject({
+    "form-name": "contact",
+    "entry-point": "owner-bottlenecks",
+    focus: "discovery",
+    message: "Every customer update needs me to reconcile three tools.",
+  });
+  await expect(page.getByTestId("contact-section-schedule")).toHaveAttribute("href", /^https:\/\/scheduler\.zoom\.us\//);
 });
 
 test("skip link moves keyboard focus and reduced motion is respected", async ({ page }) => {
@@ -154,7 +191,9 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
   await page.goto("/");
   const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
   expect(canonical).toBeTruthy();
-  const schema = JSON.parse(await page.locator('script[type="application/ld+json"]').innerText());
+  const schemas = (await page.locator('script[type="application/ld+json"]').allTextContents())
+    .map((content) => JSON.parse(content));
+  const schema = schemas.find((item) => item["@type"] === "ProfessionalService");
   const profiles = [
     "https://github.com/rinsesoft",
     "https://www.linkedin.com/company/143500064/",
@@ -167,13 +206,17 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
     await expect(link).toHaveAttribute("aria-label", /GitHub|LinkedIn|YouTube/);
     await expect(link.locator("svg")).toHaveAttribute("aria-hidden", "true");
     await expect(link).toHaveText("");
-    await expect(link).toHaveCSS("color", "rgb(163, 163, 163)");
+    await expect(link).toHaveCSS("color", "rgb(86, 97, 89)");
   }
+  const youtubeLink = page.getByTestId("site-footer-social").getByRole("link", { name: "YouTube" });
+  await youtubeLink.hover();
+  await expect(youtubeLink.locator("svg")).toHaveCSS("fill", "rgb(224, 255, 102)");
+  await expect(youtubeLink).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain(canonical!);
   expect(await sitemap.text()).not.toContain("/success");
-  for (const path of ["/services", "/about", "/contact"]) {
+  for (const path of ["/services", "/about", "/contact", "/owner-bottlenecks", "/business-check", "/privacy"]) {
     expect(await sitemap.text()).toContain(`https://rinsesoft.com${path}`);
   }
   const index = await request.get("/llms.txt");
@@ -182,7 +225,7 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
   expect(text).toContain("# Rinsesoft");
   expect(text).toContain(canonical!);
   expect(text).not.toContain("/success");
-  for (const path of ["/services", "/about", "/contact"]) {
+  for (const path of ["/services", "/about", "/contact", "/owner-bottlenecks", "/business-check", "/privacy"]) {
     expect(text).toContain(`https://rinsesoft.com${path}`);
   }
   for (const asset of ["/fonts/inter-latin-variable.woff2", "/img/rinsesoft-insignia-60.webp"]) {
@@ -195,11 +238,30 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Thank you.");
 });
 
+test("privacy page explains contact-form and third-party data handling", async ({ page }) => {
+  await page.goto("/privacy");
+  await expect(page).toHaveTitle("Privacy | Rinsesoft");
+  await expect(page.getByTestId("privacy-policy")).toContainText("WDZ, LLC, doing business as Rinsesoft");
+  await expect(page.getByTestId("privacy-policy")).toContainText("Netlify");
+  await expect(page.getByTestId("privacy-policy")).toContainText("Zoom");
+  await expect(page.getByTestId("site-footer-nav").getByRole("link", { name: "Privacy" }))
+    .toHaveAttribute("href", "/privacy");
+  await expect(page.getByTestId("site-footer")).toContainText("WDZ, LLC, doing business as Rinsesoft");
+});
+
 test("the site works without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:8081/");
   await expect(page.getByTestId("home-hero")).toBeVisible();
+  await page.getByTestId("problem-section-owner-bottlenecks").click();
+  await expect(page.getByTestId("bottleneck-checklist").getByRole("listitem")).toHaveCount(4);
+  await page.getByTestId("owner-bottlenecks-talk").click();
+  await expect(page.getByTestId("contact-section")).toBeInViewport();
+  await expect(page.getByTestId("contact-form")).toBeVisible();
+  await expect(page.getByTestId("contact-form").locator('input[name="entry-point"]'))
+    .toHaveValue("owner-bottlenecks");
+  await page.goto("http://127.0.0.1:8081/");
   await page.getByTestId("home-hero-consultation").click();
   await expect(page).toHaveURL(/\/contact$/);
   await expect(page.getByTestId("contact-form")).toBeVisible();
@@ -226,8 +288,8 @@ test("company pages have unique metadata and navigable primary links", async ({ 
       if (path === `/${destination}`) await expect(link).toHaveAttribute("aria-current", "page");
     }
   }
-  expect(titles.size).toBe(4);
-  expect(descriptions.size).toBe(4);
+  expect(titles.size).toBe(paths.length - 1);
+  expect(descriptions.size).toBe(paths.length - 1);
   await page.getByTestId("site-header-services").click();
   await expect(page.getByTestId("engagement-step")).toHaveCount(3);
   await page.getByTestId("site-header-about").click();
@@ -237,36 +299,37 @@ test("company pages have unique metadata and navigable primary links", async ({ 
   await expect(page.getByTestId("contact-form")).toBeVisible();
 });
 
-test("the homepage has no diagram or portrait and About retains the portrait", async ({ page, request }) => {
+test("the homepage explains delivery and lazily loads the shared founder portrait", async ({ page, request }) => {
   await page.goto("/");
-  await expect(page.getByTestId("home-hero-approach")).toHaveCount(0);
-  await expect(page.getByTestId("founder-preview").getByRole("img")).toHaveCount(0);
+  await expect(page.getByTestId("home-hero-approach").getByRole("listitem")).toHaveCount(4);
+  await expect(page.getByTestId("founder-preview").getByRole("img")).toHaveAttribute("loading", "lazy");
   await expect(page.getByTestId("home-hero-consultation")).toBeVisible();
   await page.goto("/about");
   await expect(page.getByTestId("founder-profile").getByRole("img")).toBeVisible();
+  await expect(page.getByTestId("founder-profile").getByRole("img")).toHaveAttribute("fetchpriority", "high");
   const portrait = await request.get("/img/collin-thomas-2026.webp");
   expect(portrait.ok()).toBe(true);
 });
 
-test("the homepage positions AI as a business opportunity, not a default solution", async ({ page }) => {
+test("the homepage connects expertise and process improvement to business capacity", async ({ page }) => {
   await page.goto("/");
   const section = page.getByTestId("problem-section");
-  await expect(section.getByTestId("owner-situation")).toHaveCount(3);
-  await expect(section.getByRole("heading", { name: /Not your daily workload/ })).toBeVisible();
-  await expect(section.getByRole("heading", { name: /Ready for the next chapter/ })).toBeVisible();
-  await expect(section.getByRole("heading", { name: /You see opportunity/ })).toBeVisible();
-  await expect(section.getByText(/AI opens new opportunities/)).toBeVisible();
-  await expect(section).toContainText("measurable value");
-  await expect(section).toContainText("simpler automation or better-connected systems");
+  await expect(section.getByTestId("owner-situation")).toHaveCount(1);
+  await expect(section.getByRole("heading", { name: /Your expertise built the business/ })).toBeVisible();
+  await expect(section).toContainText("clear processes and systems your team can rely on");
+  await expect(page.getByTestId("home-hero-approach")).toContainText(
+    "Resolve the bottleneck before adding more technology",
+  );
+  await expect(page.getByTestId("home-hero-approach")).toContainText("Compare results with the baseline");
 });
 
 for (const width of [390, 970, 1440]) {
-  test(`owner situations alternate on desktop and stack heading-first on mobile at ${width}px`, async ({ page }) => {
+  test(`business constraint is side-by-side on desktop and heading-first on mobile at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     const situations = await page.getByTestId("owner-situation").all();
-    expect(situations).toHaveLength(3);
-    for (const [index, section] of situations.entries()) {
+    expect(situations).toHaveLength(1);
+    for (const section of situations) {
       const heading = await section.getByRole("heading", { level: 2 }).boundingBox();
       const copy = await section.locator("p").first().boundingBox();
       const header = await section.locator("header").boundingBox();
@@ -280,10 +343,8 @@ for (const width of [390, 970, 1440]) {
       }
       if (width < 900) {
         expect(copy!.y).toBeGreaterThan(heading!.y + heading!.height);
-      } else if (index % 2 === 0) {
-        expect(heading!.x + heading!.width).toBeLessThan(copy!.x);
       } else {
-        expect(copy!.x + copy!.width).toBeLessThan(heading!.x);
+        expect(heading!.x + heading!.width).toBeLessThan(copy!.x);
       }
     }
   });
@@ -335,7 +396,7 @@ for (const width of [390, 970, 1440]) {
     await page.goto("/");
     const section = page.getByTestId("founder-preview");
     const heading = section.getByRole("heading", { level: 2 });
-    const copy = section.getByText("Rinsesoft brings over 20 years", { exact: false });
+    const copy = section.getByText("Rinsesoft is a founder-led practice", { exact: false });
     const headingBox = await heading.boundingBox();
     const copyBox = await copy.boundingBox();
     expect(headingBox).not.toBeNull();
@@ -343,6 +404,125 @@ for (const width of [390, 970, 1440]) {
     expect(copyBox!.y).toBeGreaterThan(headingBox!.y + headingBox!.height);
     expect(copyBox!.x).toBe(headingBox!.x);
     await expect(section).not.toContainText("Work directly with Collin");
-    await expect(section.getByRole("link", { name: /More about Rinsesoft/ })).toHaveAttribute("href", "/about");
+    await expect(section.getByRole("link", { name: /Meet the firm behind the work/ })).toHaveAttribute("href", "/about");
+  });
+}
+
+for (const width of [375, 899, 900, 1440]) {
+  test(`homepage preserves the brand and keeps the hero contained at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await expect(page.getByTestId("site-header").getByRole("img")).toHaveCSS("filter", "none");
+    await expect(page.getByTestId("site-footer").getByRole("img")).toHaveCSS("filter", "none");
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(248, 248, 243)");
+    await expect(page.getByTestId("home-hero-approach")).toHaveCSS("background-color", "rgb(238, 240, 232)");
+    await expect(page.getByTestId("site-header-contact")).toHaveCSS("background-color", "rgb(204, 255, 0)");
+    await expect(page.getByTestId("home-hero-consultation")).toHaveCSS("background-color", "rgb(32, 45, 39)");
+    await page.getByTestId("home-hero-consultation").hover();
+    await expect(page.getByTestId("home-hero-consultation")).toHaveCSS("background-color", "rgb(204, 255, 0)");
+    await expect(page.getByTestId("home-hero-consultation")).toHaveCSS("color", "rgb(10, 10, 10)");
+    const hero = await page.getByTestId("home-hero").boundingBox();
+    const heading = await page.getByRole("heading", { level: 1 }).boundingBox();
+    const approach = await page.getByTestId("home-hero-approach").boundingBox();
+    const cta = await page.getByTestId("home-hero-consultation").boundingBox();
+    expect(hero).not.toBeNull();
+    expect(heading).not.toBeNull();
+    expect(approach).not.toBeNull();
+    expect(cta).not.toBeNull();
+    for (const box of [heading!, approach!, cta!]) {
+      expect(box.x).toBeGreaterThanOrEqual(hero!.x);
+      expect(box.x + box.width).toBeLessThanOrEqual(hero!.x + hero!.width + 1);
+      expect(box.y + box.height).toBeLessThanOrEqual(hero!.y + hero!.height);
+    }
+    if (width >= 900) {
+      expect(heading!.x + heading!.width).toBeLessThan(approach!.x);
+    } else {
+      expect(approach!.y).toBeGreaterThan(cta!.y + cta!.height);
+    }
+  });
+}
+
+for (const width of [390, 1440]) {
+  test(`decorative motion settles without moving content at ${width}px`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    const ambient = page.getByTestId("home-hero-ambient");
+    await expect(ambient).toHaveAttribute("aria-hidden", "true");
+    await expect(ambient).toHaveCSS("pointer-events", "none");
+    await expect(page.getByTestId("home-hero-trace")).toHaveCSS("animation-duration", "4s");
+    await expect(page.getByTestId("home-hero-trace")).toHaveCSS("animation-iteration-count", "1");
+    const heading = await page.getByRole("heading", { level: 1 }).boundingBox();
+    const approach = await page.getByTestId("home-hero-approach").boundingBox();
+    await ambient.evaluate(async (element) => {
+      await Promise.all(element.getAnimations({ subtree: true }).map((animation) => animation.finished));
+    });
+    expect(await page.getByRole("heading", { level: 1 }).boundingBox()).toEqual(heading);
+    expect(await page.getByTestId("home-hero-approach").boundingBox()).toEqual(approach);
+    await expect(page.getByTestId("home-hero-trace")).toHaveCSS("stroke-dashoffset", "0px");
+    expect(await ambient.evaluate(element =>
+      element.getAnimations({ subtree: true }).every(animation => animation.playState === "finished"),
+    )).toBe(true);
+    await page.getByTestId("home-hero-consultation").click();
+    await expect(page).toHaveURL(/\/contact$/);
+  });
+}
+
+test("decorations stay static with reduced motion and no JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce", javaScriptEnabled: false });
+  const page = await context.newPage();
+  try {
+    await page.goto("http://127.0.0.1:8081/");
+    const ambient = page.getByTestId("home-hero-ambient");
+    await expect(ambient).toBeVisible();
+    await expect(page.getByTestId("home-hero-trace")).toHaveCSS("animation-name", "none");
+    expect(await ambient.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+    for (const card of await page.getByTestId("service-card").all()) {
+      await expect(card.locator("svg")).toHaveAttribute("aria-hidden", "true");
+      await expect(card.locator("svg")).toHaveAttribute("focusable", "false");
+    }
+    await page.getByTestId("home-hero-consultation").click();
+    await expect(page.getByTestId("contact-form")).toBeVisible();
+  } finally {
+    await context.close();
+  }
+});
+
+for (const width of [390, 1440, 1920]) {
+  test(`the page wash spans the viewport, not the text column, at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    for (const path of ["/about", "/", "/services", "/contact", "/resources"]) {
+      await page.goto(path);
+      const body = page.locator("body");
+      await expect(body).toHaveCSS("background-image", /radial-gradient/);
+      await expect(body).toHaveCSS("background-repeat", "no-repeat");
+      const bounds = await body.boundingBox();
+      expect(bounds!.x).toBe(0);
+      expect(bounds!.width).toBe(width);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+      const intro = page.getByTestId("page-intro");
+      if (path === "/") {
+        await expect(page.getByTestId("home-hero-ambient")).toHaveCSS("background-image", "none");
+      } else {
+        await expect(intro).toHaveCSS("background-image", "none");
+        expect((await intro.boundingBox())!.width).toBeLessThanOrEqual(880);
+      }
+    }
+  });
+}
+
+for (const width of [900, 1024, 1280, 1440, 1920]) {
+  test(`the decorative rail clears the approach card at ${width}px`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/");
+    const railY = await page.getByTestId("home-hero-trace").evaluate((element) => {
+      const path = element as SVGPathElement;
+      const matrix = path.getScreenCTM();
+      if (!matrix) throw new Error("Decorative rail has no screen transform.");
+      return new DOMPoint(800, 56).matrixTransform(matrix).y;
+    });
+    const card = await page.getByTestId("home-hero-approach").boundingBox();
+    expect(card!.y - railY).toBeGreaterThanOrEqual(24);
   });
 }

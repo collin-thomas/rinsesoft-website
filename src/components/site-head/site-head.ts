@@ -1,30 +1,50 @@
 import { html, json } from "@bascik/bascik/html";
 import { site as company } from "../../lib/site.ts";
+import { socialImagePath } from "../../lib/social-image.ts";
 
 export default () => {
+  const pagePath = process.env.BASCIK_PAGE_PATH ?? "/";
+  const type = pagePath.startsWith("/resources/") ? "article" : "website";
+  const openGraphType = html`
+    <meta property="og:type" content="${type}">
+    <meta property="og:site_name" content="${company.name}">
+  `;
   const siteUrl = process.env.BASCIK_SITE_URL;
-  if (!siteUrl) return html``;
+  if (!siteUrl) return openGraphType;
 
   const site = new URL(siteUrl);
-  const canonical = new URL(process.env.BASCIK_PAGE_PATH ?? "/", site).toString();
-  const image = new URL("/img/og-image.jpg", site).toString();
+  const base = (process.env.BASCIK_BASE ?? "/").replace(/\/$/, "");
+  const canonical = new URL(`${base}${pagePath}`, site).toString();
+  const image = new URL(`${base}${socialImagePath(pagePath)}`, site).toString();
+  const home = new URL(`${base}/`, site).toString();
 
   return html`
+    ${openGraphType}
     <link rel="canonical" href="${canonical}">
     <meta property="og:url" content="${canonical}">
     <meta property="og:image" content="${image}">
-    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:image" content="${image}">
     <script type="application/ld+json">${json({
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
+      "@id": `${home}#organization`,
       name: company.name,
       description:
-        "Strategic Systems Architecture and efficiency consulting focusing on margin optimization and operational health.",
-      url: new URL("/", site).toString(),
+        "Rinsesoft helps founders and executive teams improve operations and build capacity for growth, combining fractional CTO leadership with hands-on implementation.",
+      url: home,
+      logo: new URL(`${base}/img/rinsesoft-insignia-180.webp`, site).toString(),
       sameAs: company.profiles.map((profile) => profile.url),
     })}</script>
+    ${pagePath === "/" ? html`<script type="application/ld+json">${json({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${home}#website`,
+      name: company.name,
+      url: home,
+      publisher: { "@id": `${home}#organization` },
+    })}</script>` : html``}
   `;
 };

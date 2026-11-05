@@ -1,5 +1,5 @@
 .site-header {
-  padding: 1.25rem 0;
+  padding: 1.15rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,8 +8,8 @@
 
 .site-header nav a {
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 550;
+  font-size: 0.8rem;
   color: var(--text-main);
   padding: 0.75rem 0;
 }
@@ -17,16 +17,26 @@
 .site-header nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.9rem, 3vw, 2rem);
+  gap: clamp(0.65rem, 2.5vw, 2rem);
 }
 
 .site-header nav a:hover,
 .site-header nav a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--text-main);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
 }
 
 .site-header nav .contact-link {
-  border-bottom: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.65rem 0.6rem;
+  border-radius: 3px;
+}
+
+.site-header nav .contact-link:hover {
+  background: var(--accent-hover);
 }
 
 .logo {
@@ -43,10 +53,10 @@
 
 @media (min-width: 900px) {
   .site-header {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
   }
 
   .logo-image {
-    height: 26px;
+    height: 23px;
   }
 }

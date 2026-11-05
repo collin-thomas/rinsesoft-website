@@ -1,0 +1,14 @@
+.checklist {
+  padding: var(--space-section) 0;
+  border-top: 1px solid var(--border);
+}
+
+p {
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.note {
+  max-width: 700px;
+  font-size: 0.85rem;
+}

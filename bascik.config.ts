@@ -11,6 +11,13 @@ export default defineConfig({
   },
   pipeline: {
     watchPaths: ["src/lib/"],
-    exec: [{ script: "scripts/llms-txt.ts", phase: "post" }],
+    exec: [
+      { script: "scripts/llms-txt.ts", phase: "post" },
+      {
+        script: "scripts/og-images.ts",
+        phase: "post",
+        watch: ["src/pages/", "src/components/site-head/", "src/lib/social-image.ts", "scripts/og-images.ts"],
+      },
+    ],
   },
 });

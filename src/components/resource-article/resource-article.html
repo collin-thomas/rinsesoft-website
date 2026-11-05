@@ -1,0 +1,17 @@
+<!-- @bascik
+Shared founder-authored article shell for business guides.
+@prop label - Article topic.
+@prop title - Article heading.
+@prop lead - Direct summary of the article's answer.
+-->
+<article class="resource-article" data-testid="resource-article">
+  <header class="resource-article-header" data-testid="resource-article-header">
+    <a href="/resources" class="text-link" data-testid="resource-article-resources">&larr; All resources</a>
+    <span class="eyebrow" data-bascik-prop-label></span>
+    <h1 data-bascik-prop-title></h1>
+    <article-byline />
+    <p class="resource-article-lead" data-bascik-prop-lead></p>
+  </header>
+  <p class="resource-article-note">Examples here are illustrative, not client case studies or claims of measured results.</p>
+  <div data-bascik-slot></div>
+</article>

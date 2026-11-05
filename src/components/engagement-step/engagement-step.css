@@ -22,7 +22,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.85rem;
-  color: var(--accent);
+  color: var(--text-main);
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -35,7 +35,7 @@
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--border-strong);
   border-radius: 3px;
   font-size: 0.8rem;
   letter-spacing: normal;
@@ -82,12 +82,12 @@ ul {
   display: grid;
   gap: 0.5rem;
   padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
-  background: #ccff0008;
-  border-top: 1px solid #ccff0030;
+  background: var(--bg-tint);
+  border-top: 1px solid var(--border);
 }
 
 .outcome h4 {
-  color: var(--accent);
+  color: var(--text-main);
   margin-bottom: 0;
 }
 

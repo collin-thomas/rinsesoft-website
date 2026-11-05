@@ -1,12 +1,16 @@
 <!-- @bascik
 Netlify contact request form.
+@prop title - Conversation heading.
+@prop intro - What to expect from the first conversation.
+@prop submit-label - Inquiry button label.
+@prop source - Entry point recorded with the inquiry.
 -->
 <section class="contact" data-testid="contact-section">
   <div class="contact-layout">
     <header class="contact-header">
       <span class="eyebrow">Initial discovery</span>
-      <h2>Let's start with your business.</h2>
-      <p>We'll review your inquiry and follow up within two business days to arrange a conversation about your
+      <h2 data-bascik-prop-title>Let's start with your business.</h2>
+      <p data-bascik-prop-intro>We'll review your inquiry and follow up within two business days to arrange a conversation about your
         priorities and whether we're a fit.</p>
       <aside class="meeting-card" aria-label="Schedule a meeting" data-testid="contact-section-meeting-card">
         <div class="meeting-card-meta">
@@ -15,10 +19,7 @@ Netlify contact request form.
         </div>
         <h3>Let's talk through what's next.</h3>
         <p>Choose a time that works for you and book a 30-minute conversation with Collin.</p>
-        <a class="meeting-link" href="https://scheduler.zoom.us/collin-thomas/30-minute-meeting-with-collin-from-rinsesoft"
-          target="_blank" rel="noopener noreferrer" data-testid="contact-section-schedule">
-          Find a time <span aria-hidden="true">&nearr;</span>
-        </a>
+        <booking-link class="meeting-link" data-bascik-prop-label="Find a time" data-testid="contact-section-schedule" />
       </aside>
       <p class="email-prompt">Prefer email?</p>
       <a class="email-link" href="mailto:info@rinsesoft.com"
@@ -28,6 +29,7 @@ Netlify contact request form.
     </header>
     <form name="contact" method="POST" action="/success" data-netlify="true" data-testid="contact-form">
       <input type="hidden" name="form-name" value="contact">
+      <input type="hidden" name="entry-point" data-bascik-attr-value="source">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" required
@@ -60,7 +62,7 @@ Netlify contact request form.
       </div>
       <p class="privacy-note">Please don't include passwords, credentials, or confidential business data in this initial
         inquiry.</p>
-      <button type="submit" class="submit-button" data-testid="contact-section-submit">Send discovery inquiry</button>
+      <button type="submit" class="submit-button" data-testid="contact-section-submit" data-bascik-prop-submit-label>Send discovery inquiry</button>
     </form>
   </div>
 </section>

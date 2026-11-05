@@ -15,11 +15,8 @@ h2 {
 .body {
   color: var(--text-dim);
   line-height: 1.8;
-  padding: clamp(1.5rem, 3vw, 2rem);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-top: 2px solid var(--accent);
-  border-radius: 3px;
+  padding-left: clamp(1.5rem, 3vw, 2rem);
+  border-left: 2px solid var(--border);
 }
 
 p {
@@ -33,21 +30,8 @@ p {
 @media (min-width: 900px) {
   .situation {
     grid-template-columns: 1fr 1.1fr;
-    gap: 5rem;
+    gap: 4rem;
     align-items: start;
   }
 
-  .situation:nth-child(even) {
-    grid-template-columns: 1.1fr 1fr;
-  }
-
-  .situation:nth-child(even) header {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .situation:nth-child(even) .body {
-    grid-column: 1;
-    grid-row: 1;
-  }
 }

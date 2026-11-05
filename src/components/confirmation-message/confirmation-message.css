@@ -26,8 +26,8 @@
 }
 
 .button {
-  background: var(--accent);
-  color: #000;
+  background: var(--text-main);
+  color: var(--bg-secondary);
   padding: 1.125rem 2rem;
   border-radius: 4px;
   font-weight: 800;
@@ -39,6 +39,6 @@
 }
 
 .button:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.1);
+  background: var(--accent);
+  color: var(--on-accent);
 }

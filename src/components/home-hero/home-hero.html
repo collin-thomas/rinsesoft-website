@@ -2,13 +2,35 @@
 Homepage primary message and consultation link.
 -->
 <section class="hero" data-testid="home-hero">
+  <div class="ambient" aria-hidden="true" data-testid="home-hero-ambient">
+    <svg class="field" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMin meet" width="1200" height="800" fill="none" focusable="false">
+      <path class="grid-lines" d="M600 0V800M720 0V800M840 0V800M960 0V800M1080 0V800M1200 0V800M540 80H1200M540 200H1200M540 320H1200M540 440H1200M540 560H1200M540 680H1200"/>
+      <path class="connection" data-testid="home-hero-trace" pathLength="1" d="M560 0V32Q560 56 584 56H1104Q1128 56 1128 80V696Q1128 720 1104 720H648Q624 720 624 744V800"/>
+      <circle class="node" cx="560" cy="32" r="5"/>
+      <circle class="node" cx="1128" cy="696" r="5"/>
+      <circle class="signal" cx="624" cy="744" r="6"/>
+    </svg>
+  </div>
   <div class="copy">
-    <span class="eyebrow">Technology strategy for business owners</span>
-    <h1>Turn technology into your strongest <span class="accent-text">financial asset.</span></h1>
-    <p>Grow your business. Get your time back. We listen to your priorities and use your operational data to shape systems that improve efficiency, protect margins, and support lasting business value.</p>
+    <span class="eyebrow kicker">Process improvement &amp; fractional CTO leadership</span>
+    <h1>Stronger operations. <span class="accent-text">Greater capacity to grow.</span></h1>
+    <p>We help founders and executive teams remove the operational constraints on growth. First, we improve how the work gets done. Then we build the systems that give your people more capacity and your business a stronger foundation.</p>
+    <p class="commitment">From the first business decision to working systems.<br>We don't stop at recommendations.</p>
     <div class="actions">
       <a href="/contact" class="button" data-testid="home-hero-consultation">Schedule an initial discovery <span aria-hidden="true">&nearr;</span></a>
       <a href="/services" class="text-link">Explore our services <span aria-hidden="true">&rarr;</span></a>
     </div>
+    <a href="/business-check" class="starting-point" data-testid="home-hero-business-check">Not sure where to start? <span aria-hidden="true">&rarr;</span></a>
   </div>
+  <aside class="approach" aria-labelledby="approach-title" data-testid="home-hero-approach">
+    <span class="eyebrow label">The Rinsesoft approach</span>
+    <h2 id="approach-title">A clear path.<br>A measurable return.</h2>
+    <ol>
+      <li><strong>Understand the business</strong><span>Agree on the outcome. Establish where you are today.</span></li>
+      <li><strong>Improve the process</strong><span>Resolve the bottleneck before adding more technology.</span></li>
+      <li><strong>Build and prove it</strong><span>Put working systems in your team's hands. Test them on real work.</span></li>
+      <li><strong>Measure. Then expand.</strong><span>Compare results with the baseline. Choose the next investment together.</span></li>
+    </ol>
+    <p class="principle">Your business sets the direction.<br>The technology follows.</p>
+  </aside>
 </section>
