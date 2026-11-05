@@ -66,6 +66,12 @@ test("every page has complete, unique metadata and a distinct, decodable social 
     })) {
       await expect(page.locator(`meta[name="${name}"]`)).toHaveAttribute("content", value);
     }
+    const metaKeys = await page.locator("head meta").evaluateAll((tags) =>
+      tags.map((tag) => tag.getAttribute("property") ?? tag.getAttribute("name") ?? ""));
+    for (const key of metaKeys.filter((key) => /:image:/.test(key))) {
+      const root = key.replace(/:image:.*/, ":image");
+      expect(metaKeys.indexOf(root), `${key} must follow ${root}`).toBeLessThan(metaKeys.indexOf(key));
+    }
     const imagePath = new URL(image!).pathname;
     const response = await request.get(imagePath);
     expect(response.ok()).toBe(true);

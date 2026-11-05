@@ -14,9 +14,7 @@ export default async () => {
     <meta property="og:type" content="${type}">
     <meta property="og:site_name" content="${company.name}">
     <meta property="og:title" content="${title}">
-    <meta property="og:image:alt" content="${title}">
     <meta name="twitter:title" content="${title}">
-    <meta name="twitter:image:alt" content="${title}">
   `;
   const siteUrl = process.env.BASCIK_SITE_URL;
   if (!siteUrl) return openGraphType;
@@ -27,6 +25,7 @@ export default async () => {
   const image = new URL(`${base}${socialImagePath(pagePath)}`, site).toString();
   const home = new URL(`${base}/`, site).toString();
 
+  // Image alt tags must follow their image tags, or Apple LinkPresentation (iMessage) drops the image.
   return html`
     ${openGraphType}
     <link rel="canonical" href="${canonical}">
@@ -35,7 +34,9 @@ export default async () => {
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="${title}">
     <meta name="twitter:image" content="${image}">
+    <meta name="twitter:image:alt" content="${title}">
     <script type="application/ld+json">${json({
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
