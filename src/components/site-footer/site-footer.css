@@ -73,6 +73,8 @@
 .social-links a:hover,
 .social-links a:focus-visible {
   color: var(--accent-hover);
+  background-color: var(--text-main);
+  border-radius: 25px;
 }
 
 .attribution {
