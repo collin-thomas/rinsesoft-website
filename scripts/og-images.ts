@@ -57,10 +57,14 @@ try {
         p { margin: 0; max-width: 980px; font-size: 25px; line-height: 1.5; color: #566159; }
         footer { display: flex; align-items: center; gap: 18px; font-size: 18px; color: #566159; }
         .rule { flex: 1; height: 1px; background: #d8dfd5; }
+        .cta {
+          padding: 10px 16px; border-radius: 3px; background: #ccff00;
+          color: #0a0a0a; font-size: 16px; font-weight: 600;
+        }
       </style></head><body>
         <header><img src="https://og-assets.invalid/logo.webp" alt="Rinsesoft"></header>
         <main><h1>${headline}</h1><p>${description}</p></main>
-        <footer><span class="rule"></span><span>${pagePath}</span></footer>
+        <footer><span>${pagePath}</span><span class="rule"></span><span class="cta">Let's talk through your priorities</span></footer>
       </body></html>`));
     await page.evaluate(async () => {
       await document.fonts.load("650 58px Inter");
