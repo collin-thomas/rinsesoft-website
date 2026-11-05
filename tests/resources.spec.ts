@@ -38,7 +38,7 @@ test("the homepage retains executive positioning and links to a practical roadma
   );
   await expect(page.getByTestId("home-hero").getByRole("link", { name: /Explore our services/ }))
     .toHaveAttribute("href", "/services");
-  await expect(page).toHaveTitle("Process Improvement & Fractional CTO Consulting | Rinsesoft");
+  await expect(page).toHaveTitle("Process Improvement & Technology Leadership | Rinsesoft");
   await page.getByTestId("resources-list").getByTestId("resource-card-link")
     .filter({ hasText: "technology roadmap" }).click();
   await expect(page).toHaveURL(/\/resources\/business-problem-roadmap$/);
