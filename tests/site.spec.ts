@@ -211,7 +211,8 @@ test("crawler metadata and company profiles are consistent", async ({ page, requ
   const youtubeLink = page.getByTestId("site-footer-social").getByRole("link", { name: "YouTube" });
   await youtubeLink.hover();
   await expect(youtubeLink.locator("svg")).toHaveCSS("fill", "rgb(224, 255, 102)");
-  await expect(youtubeLink).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(youtubeLink).toHaveCSS("background-color", "rgb(32, 45, 39)");
+  await expect(youtubeLink).toHaveCSS("border-radius", "25px");
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain(canonical!);
