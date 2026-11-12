@@ -12,8 +12,8 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@bascik/bascik": "1.0.0-rc.13",
-    "@bascik/language-server": "1.0.0-rc.1",
+    "@bascik/bascik": "1.0.0",
+    "@bascik/language-server": "1.0.0",
     "@playwright/test": "1.64.1",
     "lighthouse": "13.5.0",
     "parse5": "8.1.0"
