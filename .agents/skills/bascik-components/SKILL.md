@@ -1,6 +1,6 @@
 ---
 name: bascik-components
-description: Decide what becomes a Bascik component and write component CSS and TypeScript that keep working with several instances on a page. Use when a page is turning into a big block of HTML, when deciding whether to split a section, pass a prop, or use a slot; when writing or debugging a component's <style>, companion .css, or <script>; when a component works once but breaks with two instances; when compiled class or ID names look wrong; when adding tabs, dialogs, menus, toggles, forms, fetch calls, storage, or events between components without a framework; when setting up design tokens, dark mode, a theme toggle, or fonts; when optimizing images with local CLI tools, responsive WebP, srcset, sizes, or picture; or when configuring deduplicateCss, preserve, data-bascik-preserve, or Tailwind. Includes a CSS token checker and a local WebP generator.
+description: Decide what becomes a Bascik component and write component CSS and TypeScript that keep working with several instances on a page. Use when a page is turning into a big block of HTML, when deciding whether to split a section, pass a prop, or use a slot; when writing or debugging a component's <style>, companion .css, or <script>; when a component works once but breaks with two instances; when compiled class or ID names look wrong; when adding tabs, dialogs, menus, toggles, forms, fetch calls, storage, or events between components without a framework; when setting up design tokens, dark mode, a theme toggle, or fonts; or when configuring deduplicateCss, preserve, data-bascik-preserve, or Tailwind. Includes a CSS token checker.
 license: MIT
 metadata:
   author: bascik
@@ -207,7 +207,7 @@ p {}   ->  .b_el_<component>_p                          class added to template 
 data-testid ->  as written                               never scoped or hashed
 ```
 
-Name components with hyphens, never underscores (`site-nav-x.html`, not `site-nav_x.html`): `#btn` in `site-nav_x` and `#x_btn` in `site-nav` both become `b_id_site-nav_x_btn`, which fails the build. The linter warns on any underscore in a component name (`component-name-underscore`).
+Name components by their job without a redundant app prefix (`not-found`, not `shop-not-found`; `navigation`, not `shop-nav`). Never use a native HTML, SVG, or MathML element name, including obsolete names (`nav`, `path`, `mi`, or `keygen`); use `navigation`, `page-head`, or `site-footer`. Non-native single words compile, with the existing CLI/editor recommendation to use hyphens for future compatibility. Use hyphens between words, never underscores (`site-nav-x.html`, not `site-nav_x.html`): `#btn` in `site-nav_x` and `#x_btn` in `site-nav` both become `b_id_site-nav_x_btn`, which fails the build. See `/components#component-naming-and-hyphens`.
 
 Production builds shorten these to hashes. Never hard-code a scoped name. Tests use `data-testid` instead: the root gets `data-testid="<component>"`, and each interactive part, form, and landmark inside gets `data-testid="<component>-<part>"` (`plan-card-buy`, `signup-form-email`). Every instance shares them; a page that needs to tell instances apart puts `data-testid` on the usage tag, which replaces the root's. Rule 16 of the `bascik` skill has the full list.
 
@@ -251,12 +251,7 @@ It reports an **error** for `var(--x)` with no declaration and no fallback, a **
 
 ## Responsive images
 
-Read `/how-to/optimizing-images` before preparing images. Use local tools and native `<img srcset sizes>` or `<picture>`, not a framework image component or a required image service.
-
-- Keep originals outside the published pages directory. Inspect the actual CSS layout and choose widths for its slots and pixel densities; never upscale.
-- Run [`scripts/responsive-webp.mjs`](scripts/responsive-webp.mjs) from the project root. It loads the project's Sharp, writes WebP variants and a manifest, and does **not** edit HTML. Use an available local CLI instead if it fits the project.
-- Wire the generated URLs into the owning component's HTML. Match `sizes` to CSS, reserve space with dimensions, lazy-load only below-the-fold images, and prioritize only the likely LCP image.
-- Verify built assets, browser `currentSrc` at fresh mobile and desktop loads including high density, transferred bytes, and visual quality. Do not claim optimization from file generation alone.
+Use the `bascik-images` skill for responsive assets, its WebP generator, image loading priorities, and stable gallery or variant first paint. Read [Optimizing Images](https://bascik.dev/how-to/optimizing-images) for the workflow.
 
 ## Examples to copy
 

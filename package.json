@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.22.0"
+    "node": ">=24.21.0"
   },
   "scripts": {
     "dev": "bascik",
@@ -12,8 +12,8 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@bascik/bascik": "1.0.0-rc.10",
-    "@bascik/language-server": "0.1.0-rc.6",
+    "@bascik/bascik": "1.0.0-rc.13",
+    "@bascik/language-server": "1.0.0-rc.1",
     "@playwright/test": "1.64.1",
     "lighthouse": "13.5.0",
     "parse5": "8.1.0"

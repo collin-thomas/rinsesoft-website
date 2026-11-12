@@ -74,8 +74,8 @@ Code in this skill is illustrative. Adapt tag names, paths, and values to the pr
 ## Recognize a Bascik project
 
 - `package.json` depends on `@bascik/bascik`, or the root has `bascik.config.ts` / `bascik.config.js`, or there are `.html` files under `src/components/`.
-- Node.js 22.22 or newer (24 LTS recommended). Node runs `.ts` files natively and Bascik strips browser TypeScript, so no TypeScript build step exists.
-- Standard scripts: `npm run dev` (`bascik`), `npm run build` (`bascik --build`), `npm run lint` (`bascik --check`).
+- Node.js 24.21 or newer (26, the current LTS, recommended). Node runs `.ts` files natively and Bascik strips browser TypeScript, so no TypeScript build step exists.
+- Standard scripts: `npm run dev` (`bascik`), `npm run build` (`bascik --build`), `npm run lint` (`bascik --check`). `dev` is always plain `bascik`, also in a Cloudflare or Netlify project: never rewrite it to `wrangler dev`, `netlify dev`, or `bascik --target ...`. The host's runtime gets its own script (`dev:cloudflare`, `dev:netlify`); see the `bascik-config` skill, Deploy.
 
 ## Project layout
 
@@ -134,7 +134,7 @@ New components are picked up by the running dev server automatically; no restart
 
 ## Rules (must follow)
 
-1. **Hyphenated, lowercase file names.** `feature-card.html` becomes `<feature-card>`. Never name a component after a native element (`header.html`, `dialog.html`): it replaces every such element on the page. Names must be unique across every component root.
+1. **Concise, lowercase component names.** Name the job, not the app: `not-found`, not `shop-not-found`; `navigation`, not `shop-nav`. Use hyphens between words, never underscores. A non-native single word works because Bascik expands it before the browser sees it, although the CLI/editor recommend hyphens for future compatibility. Never use a native HTML, SVG, or MathML element name, including obsolete names (`nav`, `dialog`, `path`, `mi`, `keygen`); use `navigation`, `site-header`, or `site-footer` instead. Names must be unique across every component root. See `/components#component-naming-and-hyphens`.
 2. **Per-instance targeting uses `id`.** Use `getElementById` (or `getElementsByName`) for elements a script controls. `querySelector('.cls')` returns the first instance on the page, so the other instances look broken.
 3. **Order:** `<style>` above the markup, `<script>` below it.
 4. **Props carry text only.** `data-bascik-prop-*` values are HTML-escaped strings. Pass markup or nested components through slots (`data-bascik-slot`).
@@ -227,7 +227,7 @@ Every warning, its setting, and the config files: `read-doc.mjs /testing/linting
 
 ## Bundled scripts
 
-All scripts are dependency-free Node.js (22.22+) and run from the project root. Each prints `--help`.
+All scripts are dependency-free Node.js (24.21+) and run from the project root. Each prints `--help`.
 
 | Script                                                         | Purpose                                                                                                                                                                                                                                                                                     |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -287,16 +287,17 @@ The script downloads from bascik.dev, maps files to the project's configured fol
 
 ## Companion skills
 
-| Skill                  | Load it when                                                                                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `bascik-components`    | Deciding what becomes a component, writing component CSS or TypeScript, interactivity, theming, scoped names, optimizing images with local tools and native srcset |
-| `bascik-compatibility` | Deciding whether an HTML, CSS, or JavaScript feature works in browsers and inside a component                                                                      |
-| `bascik-scripts`       | Using `data-bascik-build`, `-routes`, `-server`, `-stream`, API routes, Markdown, or a blog                                                                        |
-| `bascik-seo`           | Titles, descriptions, canonical URLs, social cards, JSON-LD, sitemap, `llms.txt`                                                                                   |
-| `bascik-config`        | Creating or editing `bascik.config.ts`, monorepos, deploying, or running `bascik --server`                                                                         |
-| `bascik-testing`       | Writing tests, debugging, validating output, or tuning Lighthouse scores                                                                                           |
-| `bascik-migrate`       | Moving a site from React, Next.js, Vue, Svelte, Astro, Eleventy, Hugo, or WordPress                                                                                |
-| `bascik-refactor`      | Opt-in: having coding agents refactor a live site to production parity and 100 in all five Lighthouse categories                                                   |
+| Skill                  | Load it when                                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `bascik-components`    | Deciding what becomes a component, writing component CSS or TypeScript, interactivity, theming, scoped names        |
+| `bascik-images`        | Responsive WebP, native srcset and sizes, stable gallery geometry, and correct selected variants before first paint |
+| `bascik-compatibility` | Deciding whether an HTML, CSS, or JavaScript feature works in browsers and inside a component                       |
+| `bascik-scripts`       | Using `data-bascik-build`, `-routes`, `-server`, `-stream`, API routes, Markdown, or a blog                         |
+| `bascik-seo`           | Titles, descriptions, canonical URLs, social cards, JSON-LD, sitemap, `llms.txt`                                    |
+| `bascik-config`        | Creating or editing `bascik.config.ts`, monorepos, deploying, or running `bascik --server`                          |
+| `bascik-testing`       | Writing tests, debugging, validating output, or tuning Lighthouse scores                                            |
+| `bascik-migrate`       | Moving a site from React, Next.js, Vue, Svelte, Astro, Eleventy, Hugo, or WordPress                                 |
+| `bascik-refactor`      | Opt-in: having coding agents refactor a live site to production parity and 100 in all five Lighthouse categories    |
 
 New projects do not include `bascik-refactor`. Install it with `npx skills add bascikdev/bascik --skill bascik-refactor`.
 
